@@ -1,0 +1,43 @@
+﻿@if (!Empty)
+{
+    <div class="package-container">
+        @if (!string.IsNullOrEmpty(Icon))
+        { 
+            <div class="package-icon-holder">
+                <img src="@Icon" alt="@Icon" />
+            </div>
+        }
+        <h3>@Name</h3>
+        @if (!string.IsNullOrEmpty(Description))
+        {
+            <p class="package-description">@Description</p>
+        }
+        <div class="price-container">
+            <p>@Price @Currency</p>
+        </div>
+        <div class="buy-button">
+            <img src="" />
+            <p>@Price @Currency</p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Icon { get; set; } = "";
+
+    [Parameter]
+    public string Name { get; set; } = "";
+
+    [Parameter]
+    public string Description { get; set; } = "";
+
+    [Parameter]
+    public string Price { get; set; } = "";
+
+    [Parameter]
+    public string Currency { get; set; } = "";
+
+    [Parameter]
+    public bool Empty { get; set; } = false;
+}

@@ -1,0 +1,13 @@
+wwwroot\css\app.css
+wwwroot\Database\Packages.json
+wwwroot\icon-192.png
+wwwroot\Images\contributor_prefix.png
+wwwroot\Images\patreon_prefix.png
+wwwroot\Images\patreon_suffix.png
+wwwroot\Images\regular_prefix.png
+wwwroot\Images\token_prefix.png
+wwwroot\Images\visitor_prefix.png
+wwwroot\index.html
+wwwroot\Minecraft.ttf
+wwwroot\SVG\checkmark.svg
+wwwroot\SVG\cross.svg
