@@ -21,7 +21,6 @@ async function fetchStorePackages() {
     }
 }
 
-// Validates the username against Mojang's database
 async function loginToBasket(username) {
     if (!username || username.trim() === "") {
         return { success: false, message: "Username cannot be empty." };
@@ -34,25 +33,53 @@ async function loginToBasket(username) {
     }
 
     try {
-        const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${cleanUsername}`);
-
-        if (!response.ok) {
-            return { success: false, message: "Minecraft account does not exist." };
+        // Step A: Attempt Mojang lookup with your reliable CORS fallback
+        let verifiedUsername = cleanUsername;
+        try {
+            const mojangResponse = await fetch(`https://api.mojang.com/users/profiles/minecraft/${cleanUsername}`);
+            if (mojangResponse.ok) {
+                const mojangData = await mojangResponse.json();
+                if (mojangData && mojangData.name) {
+                    verifiedUsername = mojangData.name;
+                }
+            }
+        } catch (corsErr) {
+            console.warn("Mojang API lookup caught CORS/network block, using input name:", corsErr);
         }
 
-        const data = await response.json();
-        if (!data || !data.name) {
-            return { success: false, message: "Minecraft account not found." };
+        // Cache the valid username locally
+        localStorage.setItem("sakuravoid_username", verifiedUsername);
+
+        // Step B: Get or create the active basket
+        const basketIdent = await getOrCreateBasket();
+        const currentUrl = window.location.href;
+
+        // Step C: Call official Tebex Headless API Basket Auth GET endpoint
+        const authResponse = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}/auth?returnUrl=${encodeURIComponent(currentUrl)}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!authResponse.ok) {
+            const errorData = await authResponse.json().catch(() => null);
+            console.error("Tebex Basket Auth Error:", errorData);
+            return { success: false, message: "Failed to initialize Tebex basket authorization." };
         }
 
-        // Cache the verified correct casing of the username
-        localStorage.setItem("sakuravoid_username", data.name);
-        return { success: true, message: "" };
+        const authResult = await authResponse.json();
+
+        // Handle Tebex auth provider response data correctly
+        if (authResult.data && authResult.data.length > 0) {
+            // If your store requires redirecting through the auth URL provider:
+            // window.location.href = authResult.data[0].url;
+            return { success: true, message: "" };
+        } else {
+            return { success: true, message: "" };
+        }
+
     } catch (err) {
-        console.warn("Mojang API lookup failed, falling back to direct name acceptance:", err);
-        // Fallback if network/CORS blocks Mojang directly
-        localStorage.setItem("sakuravoid_username", cleanUsername);
-        return { success: true, message: "" };
+        console.error("Login basket error:", err);
+        return { success: false, message: "Network error initializing account login." };
     }
 }
 
@@ -71,7 +98,7 @@ async function getOrCreateBasket() {
     return basketIdent;
 }
 
-// Add a package to the basket anonymously
+// Add a package to the basket
 async function addPackageToBasket(packageId) {
     try {
         const basketIdent = await getOrCreateBasket();
@@ -80,7 +107,7 @@ async function addPackageToBasket(packageId) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                package_id: packageId,
+                package_id: Number(packageId),
                 quantity: 1
             })
         });
@@ -98,7 +125,7 @@ async function addPackageToBasket(packageId) {
     }
 }
 
-// Initialize and launch Tebex.js Checkout popup, passing the verified username
+// Initialize and launch Tebex.js Checkout popup
 async function launchCheckout() {
     const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
     const username = localStorage.getItem("sakuravoid_username");
@@ -110,7 +137,7 @@ async function launchCheckout() {
 
     Tebex.checkout.init({
         ident: basketIdent,
-        username: username || "", // Satisfies store login requirement on checkout
+        username: username || "",
         theme: "dark",
         colors: [
             { name: "primary", color: "#ffb8e6" },
