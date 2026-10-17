@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sakuravoid.fyi</title>
+    <base href="/" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link href="sakuravoid.fyi.styles.css" rel="stylesheet" />
+    <script src="../js/tebexHandler.js"></script>
+    <script defer src="https://js.tebex.io/v/1.js"></script>
+    <script>
+        addEventListener("load", function () {
+            // Configure Tebex.js here
+        });
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

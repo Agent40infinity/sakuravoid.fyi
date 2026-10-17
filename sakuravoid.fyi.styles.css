@@ -1,0 +1,305 @@
+/* /Pages/Home.razor.rz.scp.css */
+html[b-delvoxmjka], body[b-delvoxmjka] {
+    min-height: 100vh;
+    margin: 0px;
+    padding: 0px;
+}
+
+body[b-delvoxmjka] {
+    width: 100%;
+    height: 100%;
+    color: #ffb8e6;
+    font-size: 17px;
+    background-color: #232127;
+}
+
+.login-container[b-delvoxmjka] {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: rgb(0, 0, 0, 0.65);
+    z-index: 10;
+}
+
+.login-popup[b-delvoxmjka] {
+    margin: auto;
+    height: 250px;
+    width: 600px;
+    background-color: #2c2c2c;
+    border-radius: 20px;
+    border-collapse: separate;
+    border-spacing: 6px 2px;
+    border-bottom: solid 4px #ffb8e6;
+    border-top: solid 4px #ffb8e6;
+    border-left: solid 8px #ffb8e6;
+    border-right: solid 8px #ffb8e6;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.login-popup h2[b-delvoxmjka] {
+    text-align: center;
+    margin: 10px;
+}
+
+.login-popup p[b-delvoxmjka] {
+    text-align: center;
+    margin: 10px 30px 10px 30px;
+    color: #979797;
+}
+
+.login-text-container[b-delvoxmjka] {
+    padding: 0px 15px 20px 15px;
+}
+
+.login-text-container input[b-delvoxmjka] {
+    text-align: center;
+    font-size: 26px;
+    width: 300px;
+    height: 40px;
+    background-color: #1f1f1f;
+    border: solid 4px #5f5f5f;
+    border-radius: 10px;
+    color: #ffb8e6
+}
+
+.continue-button[b-delvoxmjka] {
+    font-size: 20px;
+}
+
+.continue-button:hover[b-delvoxmjka] {
+    font-size: 20px;
+    color: #585858;
+    cursor: pointer;
+}
+
+header[b-delvoxmjka] {
+    padding: 30px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 0, 0.31);
+}
+
+.server-title[b-delvoxmjka], .checkout[b-delvoxmjka] {
+    padding: 15px;
+    border: solid 6px rgb(73, 0, 117);
+    border-top: solid 3px rgb(73, 0, 117);
+    border-bottom: solid 3px rgb(73, 0, 117);
+    border-radius: 15px;
+}
+
+.server-title img[b-delvoxmjka] {
+    width: 500px;
+    height: auto;
+}
+
+.title-page[b-delvoxmjka] {
+    padding-top: 40px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.title-page h2[b-delvoxmjka] {
+    width: 180px;
+    font-size: 40px;
+}
+
+.package-table[b-delvoxmjka] {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+table[b-delvoxmjka] {
+    border-spacing: 10px 0;
+}
+
+tr:hover td[b-delvoxmjka] {
+    background-color: #343434;
+}
+
+td[b-delvoxmjka] {
+    width: 170px;
+    height: 60px;
+    text-align: center;
+    background-color: #232127;
+    border-collapse: separate;
+    border-spacing: 6px 2px;
+    border-bottom: solid 2px #303030;
+    border-top: solid 2px #303030;
+    border-left: solid 2px #585858;
+    border-right: solid 2px #585858;
+}
+
+.side[b-delvoxmjka] {
+    width: 150px;
+    padding-left: 25px;
+    padding-right: 25px;
+    text-align: left;
+}
+
+td img[b-delvoxmjka] {
+    background-color: #100010ed;
+    border: 2px solid;
+    border-image: linear-gradient( to bottom, rgba(80, 0, 255, 0.31), rgba(40, 0, 127, 0.31) );
+    border-image-slice: 1;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(16, 0, 16, 0.93);
+}
+
+.td-start[b-delvoxmjka] {
+    border-top: solid 2px #585858;
+    border-radius: 15px 15px 0  0;
+}
+
+.td-final[b-delvoxmjka] {
+    border-bottom: solid 2px #585858;
+    border-radius: 0 0 15px 15px;
+}
+
+.info[b-delvoxmjka] {
+    margin-top: 60px;
+    padding-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+}
+
+.info h2[b-delvoxmjka] {
+    width: 800px;
+    margin: 20px;
+    font-size: 24px;
+}
+
+.info p[b-delvoxmjka] {
+    width: 800px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+footer[b-delvoxmjka] {
+    margin-top: 100px;
+    padding-top: 10px;
+    height: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgb(20, 20, 20);
+    font-size: 14px;
+}
+
+footer p[b-delvoxmjka] {
+    padding: 0 10px 0 10px;
+}
+/* /Shared/Checkmark.razor.rz.scp.css */
+svg[b-ksg2wd2c8w] {
+    width: 25px;
+    height: 25px;
+}
+
+    svg path[b-ksg2wd2c8w] {
+        fill: #31d900;
+    }
+/* /Shared/Cross.razor.rz.scp.css */
+svg[b-qgnnt8u1b8] {
+    width: 25px;
+    height: 25px;
+}
+
+svg path[b-qgnnt8u1b8] {
+    fill: #9b0000;
+}
+/* /Shared/Package.razor.rz.scp.css */
+.package-container[b-ggkaaexsh0] {
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    border-left: solid 2px #585858;
+    border-right: solid 2px #585858;
+    border-top: solid 2px #585858;
+    border-radius: 15px 15px 0 0;
+}
+
+.package-icon-holder[b-ggkaaexsh0] {
+    height: 20px;
+}
+
+h3[b-ggkaaexsh0] {
+    font-size: 22px;
+    padding: 30px;
+}
+
+.package-description[b-ggkaaexsh0] {
+    font-size: 14px;
+    color: #979797;
+    height: 60px;
+    padding: 10px;
+}
+
+.price-container[b-ggkaaexsh0] {
+    margin: 20px;
+    height: 30px;
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #aa5fff;
+}
+
+.buy-button[b-ggkaaexsh0] {
+    margin: 10px;
+    padding: 5px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #373737;
+    background-color: #ffb8e6;
+    border: solid 2px #9a42ff;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buy-button img[b-ggkaaexsh0] {
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 20px;
+    height: auto;
+    transform: translateX(-10px);
+}
+
+.buy-button:has(img) p[b-ggkaaexsh0] {
+    transform: translateX(-10px);
+}
+
+.buy-button p[b-ggkaaexsh0] {
+    padding-top: 5px;
+}
+
+.buy-button:has(.unavaliable)[b-ggkaaexsh0] {
+    color: #898686;
+    background-color: #373737;
+    border: solid 2px #585858;
+}
+
+.subscribe[b-ggkaaexsh0] {
+    color: #390046;
+    background-color: #a863b0;
+    border: solid 2px #ffb8e6;
+}
