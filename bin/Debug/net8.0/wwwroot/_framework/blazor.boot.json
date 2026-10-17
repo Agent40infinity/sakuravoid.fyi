@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "sakuravoid.fyi",
   "resources": {
-    "hash": "sha256-bOHaqdrUQmIe3e6UlzLBEIK/wdy+vzQlr0vpbuOGOuM=",
+    "hash": "sha256-4GU5O6FyL2hCETd+m7kdZO12aAoAGSLVtqeUvL+E0J4=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-NljIbpK/1KCj0+knpX8U77Rbl5kTtfFIuFjK7AuczEw="
     },
@@ -209,10 +209,10 @@
       "mscorlib.wasm": "sha256-oV7k+vcNqj7FS6Y/lMtdhVlq3myDH55/wVxmO4QPrw4=",
       "netstandard.wasm": "sha256-XMXMB0WW//vbNNgQiFAqYo7IJ2C4yQX590aoAbOtTB4=",
       "System.Private.CoreLib.wasm": "sha256-tuhzUgbFn7ji3yhMSxyBLHAps9h0RsFnq+8pUoizHiw=",
-      "sakuravoid.fyi.wasm": "sha256-4W4PMFbdz3Wz1f1c2swDkblYqp/+TIAH3bQtiD5SXIg="
+      "sakuravoid.fyi.wasm": "sha256-ly37bJ79x0oZnDI+hHMMsON3YJBd9sIVlL7/LasdmTk="
     },
     "pdb": {
-      "sakuravoid.fyi.pdb": "sha256-p0ghZ+SImtPLWX8K6JdQiZrPQ6xYAOHWU2vz4kktGIs="
+      "sakuravoid.fyi.pdb": "sha256-wzq5vJfeVjMC8amGRb78bE2HfdiZ1K+CJP4OMd8CkK8="
     }
   },
   "cacheBootResources": true,

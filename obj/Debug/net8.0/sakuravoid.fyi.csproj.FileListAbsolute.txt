@@ -1036,6 +1036,6 @@ D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\scopedcss\Shared\Cross.r
 D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\scopedcss\Shared\Package.razor.rz.scp.css
 D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\scopedcss\projectbundle\sakuravoid.fyi.bundle.scp.css
 D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\sakuravoid.fyi.sourcelink.json
-D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\compressed\ntpsj47pv5-zrz8u7lao3.gz
-D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\compressed\wgptr0io0l-5dg2gagq19.gz
-D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\compressed\nf47xx1g5b-nvpn3c6emg.gz
+D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\compressed\ntpsj47pv5-vuo7k0utkk.gz
+D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\compressed\wgptr0io0l-7r7ahl1zpl.gz
+D:\Data\Software\Github\sakuravoid.fyi\obj\Debug\net8.0\compressed\nf47xx1g5b-rhx15c50a2.gz

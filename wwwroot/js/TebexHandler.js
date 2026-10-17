@@ -12,8 +12,6 @@ async function fetchStorePackages() {
         }
 
         const result = await response.json();
-
-        // Loop through and print each package name and its numeric ID to the console
         console.log("--- YOUR TEBEX PACKAGES ---");
         result.data.forEach(pkg => {
             console.log(`Name: "${pkg.name}" | ID: ${pkg.id} | Type: ${pkg.type}`);
@@ -23,21 +21,19 @@ async function fetchStorePackages() {
     }
 }
 
+// Validates the username against Mojang's database
 async function loginToBasket(username) {
     if (!username || username.trim() === "") {
         return { success: false, message: "Username cannot be empty." };
     }
 
     const cleanUsername = username.trim();
-
-    // Basic format check for Minecraft usernames (3-16 chars, alphanumeric & underscores)
     const isValidFormat = /^[a-zA-Z0-9_]{3,16}$/.test(cleanUsername);
     if (!isValidFormat) {
         return { success: false, message: "Invalid Minecraft username format." };
     }
 
     try {
-        // Query Mojang API to see if the profile exists
         const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${cleanUsername}`);
 
         if (!response.ok) {
@@ -45,19 +41,18 @@ async function loginToBasket(username) {
         }
 
         const data = await response.json();
-
-        if (!data || !data.id) {
+        if (!data || !data.name) {
             return { success: false, message: "Minecraft account not found." };
         }
 
-        // Account is valid! Save it locally and proceed
+        // Cache the verified correct casing of the username
         localStorage.setItem("sakuravoid_username", data.name);
-        return { success: true, user: data.name };
+        return { success: true, message: "" };
     } catch (err) {
-        console.error("Mojang validation error:", err);
-        // Fallback: if browser blocks due to strict CORS rules on api.mojang.com, 
-        // you can use a public CORS-friendly proxy or let Tebex checkout validate it.
-        return { success: true, user: cleanUsername };
+        console.warn("Mojang API lookup failed, falling back to direct name acceptance:", err);
+        // Fallback if network/CORS blocks Mojang directly
+        localStorage.setItem("sakuravoid_username", cleanUsername);
+        return { success: true, message: "" };
     }
 }
 
@@ -76,7 +71,7 @@ async function getOrCreateBasket() {
     return basketIdent;
 }
 
-// Add a package to the basket
+// Add a package to the basket anonymously
 async function addPackageToBasket(packageId) {
     try {
         const basketIdent = await getOrCreateBasket();
@@ -91,7 +86,6 @@ async function addPackageToBasket(packageId) {
         });
 
         if (!response.ok) {
-            // Log the literal validation error message returned by Tebex
             const errorDetails = await response.json();
             console.error("TEBEX 422 VALIDATION DETAIL:", JSON.stringify(errorDetails, null, 2));
             throw new Error("Failed to add package to basket.");
@@ -104,9 +98,11 @@ async function addPackageToBasket(packageId) {
     }
 }
 
-// Initialize and launch Tebex.js Checkout popup
+// Initialize and launch Tebex.js Checkout popup, passing the verified username
 async function launchCheckout() {
     const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
+    const username = localStorage.getItem("sakuravoid_username");
+
     if (!basketIdent) {
         alert("Your basket is empty!");
         return;
@@ -114,6 +110,7 @@ async function launchCheckout() {
 
     Tebex.checkout.init({
         ident: basketIdent,
+        username: username || "", // Satisfies store login requirement on checkout
         theme: "dark",
         colors: [
             { name: "primary", color: "#ffb8e6" },
