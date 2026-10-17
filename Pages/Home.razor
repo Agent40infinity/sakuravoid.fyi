@@ -208,15 +208,14 @@
     public bool ShowLoginPopup { get; set; } = true;
     public bool IsLoading { get; set; } = false;
 
-    public class LoginResult
+    public class MojangProfile
     {
-        public bool Success { get; set; }
-        public string Message { get; set; } = "";
+        public string Id { get; set; } = "";
+        public string Name { get; set; } = "";
     }
 
     protected override async Task OnInitializedAsync()
     {
-        // Check if user was already verified in a previous session
         var savedUser = await js.InvokeAsync<string>("localStorage.getItem", "sakuravoid_username");
         if (!string.IsNullOrEmpty(savedUser))
         {
@@ -243,23 +242,52 @@
             return;
         }
 
+        string cleanUsername = Username.Trim();
+        if (!System.Text.RegularExpressions.Regex.IsMatch(cleanUsername, "^[a-zA-Z0-9_]{3,16}$"))
+        {
+            ErrorMessage = "Invalid Minecraft username format.";
+            return;
+        }
+
         IsLoading = true;
         ErrorMessage = "";
 
-        // Calls the updated JavaScript Mojang validation function
-        var result = await js.InvokeAsync<LoginResult>("loginToBasket", Username);
-
-        IsLoading = false;
-
-        if (result != null && result.Success)
+        try
         {
-            // Refresh local username variable in case Mojang fixed casing
-            Username = await js.InvokeAsync<string>("localStorage.getItem", "sakuravoid_username");
+            // C# HttpClient call handles Mojang lookup seamlessly with zero browser CORS overhead
+            string verifiedName = cleanUsername;
+            var response = await Http.GetAsync($"https://api.mojang.com/users/profiles/minecraft/{cleanUsername}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var profile = await response.Content.ReadFromJsonAsync<MojangProfile>();
+                if (profile != null && !string.IsNullOrEmpty(profile.Name))
+                {
+                    verifiedName = profile.Name;
+                }
+            }
+            else
+            {
+                IsLoading = false;
+                ErrorMessage = "Minecraft account does not exist.";
+                return;
+            }
+
+            // Save verified name to 'sakuravoid_username'
+            await js.InvokeVoidAsync("localStorage.setItem", "sakuravoid_username", verifiedName);
+            Username = verifiedName;
+
+            // Trigger separate JavaScript Tebex Session Initialization & Auth
+            await js.InvokeVoidAsync("initializeTebexStoreSession");
+
+            IsLoading = false;
             ShowLoginPopup = false;
         }
-        else
+        catch (Exception ex)
         {
-            ErrorMessage = result?.Message ?? "Couldn't find Minecraft account";
+            IsLoading = false;
+            Console.Error.WriteLine(ex);
+            ErrorMessage = "Error connecting to Mojang verification service.";
         }
     }
 

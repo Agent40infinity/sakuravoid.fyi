@@ -1,5 +1,6 @@
 ﻿const STORE_PUBLIC_KEY = "14x65-0efc322f98ad8bb72df89be7e4286e76cdafa449";
 
+// Fetches list of packages for console debugging
 async function fetchStorePackages() {
     try {
         const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/packages`, {
@@ -21,68 +22,7 @@ async function fetchStorePackages() {
     }
 }
 
-async function loginToBasket(username) {
-    if (!username || username.trim() === "") {
-        return { success: false, message: "Username cannot be empty." };
-    }
-
-    const cleanUsername = username.trim();
-    const isValidFormat = /^[a-zA-Z0-9_]{3,16}$/.test(cleanUsername);
-    if (!isValidFormat) {
-        return { success: false, message: "Invalid Minecraft username format." };
-    }
-
-    try {
-        // Step A: Attempt Mojang lookup with your reliable CORS fallback
-        let verifiedUsername = cleanUsername;
-        try {
-            const mojangResponse = await fetch(`https://api.mojang.com/users/profiles/minecraft/${cleanUsername}`);
-            if (mojangResponse.ok) {
-                const mojangData = await mojangResponse.json();
-                if (mojangData && mojangData.name) {
-                    verifiedUsername = mojangData.name;
-                }
-            }
-        } catch (corsErr) {
-            console.warn("Mojang API lookup caught CORS/network block, using input name:", corsErr);
-        }
-
-        // Cache the valid username locally
-        localStorage.setItem("sakuravoid_username", verifiedUsername);
-
-        // Step B: Get or create the active basket
-        const basketIdent = await getOrCreateBasket();
-        const currentUrl = window.location.href;
-
-        // Step C: Call official Tebex Headless API Basket Auth GET endpoint
-        const authResponse = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}/auth?returnUrl=${encodeURIComponent(currentUrl)}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
-        });
-
-        if (!authResponse.ok) {
-            const errorData = await authResponse.json().catch(() => null);
-            console.error("Tebex Basket Auth Error:", errorData);
-            return { success: false, message: "Failed to initialize Tebex basket authorization." };
-        }
-
-        const authResult = await authResponse.json();
-
-        // Handle Tebex auth provider response data correctly
-        if (authResult.data && authResult.data.length > 0) {
-            // If your store requires redirecting through the auth URL provider:
-            // window.location.href = authResult.data[0].url;
-            return { success: true, message: "" };
-        } else {
-            return { success: true, message: "" };
-        }
-
-    } catch (err) {
-        console.error("Login basket error:", err);
-        return { success: false, message: "Network error initializing account login." };
-    }
-}
-
+// 1. Manages basket creation using 'sakuravoid_tebex_basket_ident'
 async function getOrCreateBasket() {
     let basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
     if (!basketIdent) {
@@ -98,7 +38,36 @@ async function getOrCreateBasket() {
     return basketIdent;
 }
 
-// Add a package to the basket
+// 2. Separate function for Tebex Basket Authorization endpoint
+async function authorizeTebexBasket(basketIdent) {
+    const currentUrl = window.location.href;
+    const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}/auth?returnUrl=${encodeURIComponent(currentUrl)}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error("Tebex Basket Auth Error:", errorData);
+        throw new Error("Failed to initialize Tebex basket authorization.");
+    }
+
+    return await response.json();
+}
+
+// 3. Wrapper function invoked by C# after Mojang verification passes
+window.initializeTebexStoreSession = async function () {
+    try {
+        const basketIdent = await getOrCreateBasket();
+        await authorizeTebexBasket(basketIdent);
+        return { success: true };
+    } catch (err) {
+        console.error("Store session initialization error:", err);
+        return { success: false, message: err.message };
+    }
+};
+
+// 4. Adds package to the authorized basket
 async function addPackageToBasket(packageId) {
     try {
         const basketIdent = await getOrCreateBasket();
@@ -125,7 +94,7 @@ async function addPackageToBasket(packageId) {
     }
 }
 
-// Initialize and launch Tebex.js Checkout popup
+// 5. Launches Tebex checkout overlay
 async function launchCheckout() {
     const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
     const username = localStorage.getItem("sakuravoid_username");
