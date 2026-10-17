@@ -52,6 +52,18 @@ async function authorizeTebexBasket(basketIdent) {
         throw new Error("Failed to initialize Tebex basket authorization.");
     }
 
+    try {
+        const username = localStorage.getItem("sakuravoid_username");
+
+        await fetch(`https://headless.tebex.io/api/baskets/${basketIdent}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: username })
+        });
+    } catch (err) {
+        console.warn("Could not bind username to basket:", err);
+    }
+
     return await response.json();
 }
 
