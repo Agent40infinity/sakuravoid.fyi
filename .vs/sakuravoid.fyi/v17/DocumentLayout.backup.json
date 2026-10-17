@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\Data\\Software\\Github\\sakuravoid.fyi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|d:\\data\\software\\github\\sakuravoid.fyi\\wwwroot\\js\\tebexhandler.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|solutionrelative:wwwroot\\js\\tebexhandler.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|d:\\data\\software\\github\\sakuravoid.fyi\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|solutionrelative:pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|d:\\data\\software\\github\\sakuravoid.fyi\\shared\\package.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|solutionrelative:shared\\package.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|d:\\data\\software\\github\\sakuravoid.fyi\\wwwroot\\js\\tebexhandler.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|solutionrelative:wwwroot\\js\\tebexhandler.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8E07CED8-72DC-4903-90AD-F36DB704AC6F}|sakuravoid.fyi.csproj|d:\\data\\software\\github\\sakuravoid.fyi\\pages\\home.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -78,7 +78,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 474,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -126,13 +126,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "TebexHandler.js",
               "DocumentMoniker": "D:\\Data\\Software\\Github\\sakuravoid.fyi\\wwwroot\\js\\TebexHandler.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\TebexHandler.js",
               "ToolTip": "D:\\Data\\Software\\Github\\sakuravoid.fyi\\wwwroot\\js\\TebexHandler.js",
               "RelativeToolTip": "wwwroot\\js\\TebexHandler.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2026-10-17T10:13:59.457Z",
               "EditorCaption": ""
@@ -165,13 +165,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Home.razor",
               "DocumentMoniker": "D:\\Data\\Software\\Github\\sakuravoid.fyi\\Pages\\Home.razor",
               "RelativeDocumentMoniker": "Pages\\Home.razor",
               "ToolTip": "D:\\Data\\Software\\Github\\sakuravoid.fyi\\Pages\\Home.razor",
               "RelativeToolTip": "Pages\\Home.razor",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACQAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-10-16T14:34:34.65Z",
               "EditorCaption": ""
@@ -191,7 +191,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Package.razor",
               "DocumentMoniker": "D:\\Data\\Software\\Github\\sakuravoid.fyi\\Shared\\Package.razor",
               "RelativeDocumentMoniker": "Shared\\Package.razor",

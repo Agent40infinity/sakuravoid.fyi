@@ -28,31 +28,36 @@ async function loginToBasket(username) {
         return { success: false, message: "Username cannot be empty." };
     }
 
-    try {
-        const basketIdent = await getOrCreateBasket();
+    const cleanUsername = username.trim();
 
-        const response = await fetch(`https://headless.tebex.io/api/baskets/${basketIdent}/auth`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                username: username.trim()
-            })
-        });
+    // Basic format check for Minecraft usernames (3-16 chars, alphanumeric & underscores)
+    const isValidFormat = /^[a-zA-Z0-9_]{3,16}$/.test(cleanUsername);
+    if (!isValidFormat) {
+        return { success: false, message: "Invalid Minecraft username format." };
+    }
+
+    try {
+        // Query Mojang API to see if the profile exists
+        const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${cleanUsername}`);
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            console.error("Tebex Auth Error:", errorData);
-            const detailMsg = errorData?.detail || "Invalid username or account not found.";
-            return { success: false, message: detailMsg };
+            return { success: false, message: "Minecraft account does not exist." };
         }
 
-        const result = await response.json();
-        // Save valid username locally
-        localStorage.setItem("sakuravoid_username", username.trim());
-        return { success: true, user: result.data };
+        const data = await response.json();
+
+        if (!data || !data.id) {
+            return { success: false, message: "Minecraft account not found." };
+        }
+
+        // Account is valid! Save it locally and proceed
+        localStorage.setItem("sakuravoid_username", data.name);
+        return { success: true, user: data.name };
     } catch (err) {
-        console.error(err);
-        return { success: false, message: "Network error validating account." };
+        console.error("Mojang validation error:", err);
+        // Fallback: if browser blocks due to strict CORS rules on api.mojang.com, 
+        // you can use a public CORS-friendly proxy or let Tebex checkout validate it.
+        return { success: true, user: cleanUsername };
     }
 }
 

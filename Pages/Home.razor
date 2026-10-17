@@ -213,6 +213,19 @@
         public string Message { get; set; } = "";
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        // Check if user was already verified in a previous session
+        var savedUser = await js.InvokeAsync<string>("localStorage.getItem", "sakuravoid_username");
+        if (!string.IsNullOrEmpty(savedUser))
+        {
+            Username = savedUser;
+            ShowLoginPopup = false;
+        }
+
+        await base.OnInitializedAsync();
+    }
+
     private async Task HandleKeyUp(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
@@ -232,12 +245,15 @@
         IsLoading = true;
         ErrorMessage = "";
 
+        // Calls the updated JavaScript Mojang validation function
         var result = await js.InvokeAsync<LoginResult>("loginToBasket", Username);
 
         IsLoading = false;
 
         if (result != null && result.Success)
         {
+            // Refresh local username variable in case Mojang fixed casing
+            Username = await js.InvokeAsync<string>("localStorage.getItem", "sakuravoid_username");
             ShowLoginPopup = false;
         }
         else
@@ -246,8 +262,10 @@
         }
     }
 
-    protected void Logout()
+    protected async Task Logout()
     {
+        await js.InvokeVoidAsync("localStorage.removeItem", "sakuravoid_username");
+        Username = "";
         ShowLoginPopup = true;
     }
 
