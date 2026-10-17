@@ -10,7 +10,7 @@ wwwroot\Images\server_title.png
 wwwroot\Images\token_prefix.png
 wwwroot\Images\visitor_prefix.png
 wwwroot\index.html
+wwwroot\js\TebexHandler.js
 wwwroot\SVG\AddToCart.svg
 wwwroot\SVG\checkmark.svg
 wwwroot\SVG\cross.svg
-wwwroot\js\TebexHandler.js

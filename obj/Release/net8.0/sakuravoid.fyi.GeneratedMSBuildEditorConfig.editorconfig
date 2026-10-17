@@ -32,10 +32,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Software/Github/sakuravoid.fyi/Pages/Home.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Data/Software/Github/sakuravoid.fyi/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Data/Software/Github/sakuravoid.fyi/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-zhu5exo237
+
+[D:/Data/Software/Github/sakuravoid.fyi/Shared/Checkmark.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENoZWNrbWFyay5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-9bzu9nu9ph
+
+[D:/Data/Software/Github/sakuravoid.fyi/Shared/Cross.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENyb3NzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-xq4z7uwj5u
+
+[D:/Data/Software/Github/sakuravoid.fyi/Shared/Package.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFBhY2thZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-c1y3tnklt4
