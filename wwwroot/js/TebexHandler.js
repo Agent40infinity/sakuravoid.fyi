@@ -56,7 +56,7 @@ async function authorizeTebexBasket(basketIdent) {
 }
 
 // 3. Wrapper function invoked by C# after Mojang verification passes
-window.initializeTebexStoreSession = async function () {
+async function initializeTebexStoreSession() {
     try {
         const basketIdent = await getOrCreateBasket();
         await authorizeTebexBasket(basketIdent);
@@ -65,7 +65,7 @@ window.initializeTebexStoreSession = async function () {
         console.error("Store session initialization error:", err);
         return { success: false, message: err.message };
     }
-};
+}
 
 // 4. Adds package to the authorized basket
 async function addPackageToBasket(packageId) {
