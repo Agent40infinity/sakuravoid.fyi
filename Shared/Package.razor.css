@@ -1,7 +1,80 @@
 ﻿.package-container {
-    height: 100px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
     border-left: solid 2px #585858;
     border-right: solid 2px #585858;
     border-top: solid 2px #585858;
     border-radius: 15px 15px 0 0;
+}
+
+.package-icon-holder {
+    height: 20px;
+}
+
+h3 {
+    font-size: 22px;
+    padding: 30px;
+}
+
+.package-description {
+    font-size: 14px;
+    color: #979797;
+    height: 60px;
+    padding: 10px;
+}
+
+.price-container {
+    margin: 20px;
+    height: 30px;
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #aa5fff;
+}
+
+.buy-button {
+    margin: 10px;
+    padding: 5px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #373737;
+    background-color: #ffb8e6;
+    border: solid 2px #9a42ff;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buy-button img {
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 20px;
+    height: auto;
+    transform: translateX(-10px);
+}
+
+.buy-button:has(img) p {
+    transform: translateX(-10px);
+}
+
+.buy-button p {
+    padding-top: 5px;
+}
+
+.buy-button:has(.unavaliable) {
+    color: #898686;
+    background-color: #373737;
+    border: solid 2px #585858;
+}
+
+.subscribe {
+    color: #390046;
+    background-color: #a863b0;
+    border: solid 2px #ffb8e6;
 }

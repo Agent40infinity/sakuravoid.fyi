@@ -12,7 +12,109 @@ body {
     background-color: #232127;
 }
 
+.login-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: rgb(0, 0, 0, 0.65);
+    z-index: 10;
+}
+
+.login-popup {
+    margin: auto;
+    height: 250px;
+    width: 600px;
+    background-color: #2c2c2c;
+    border-radius: 20px;
+    border-collapse: separate;
+    border-spacing: 6px 2px;
+    border-bottom: solid 4px #ffb8e6;
+    border-top: solid 4px #ffb8e6;
+    border-left: solid 8px #ffb8e6;
+    border-right: solid 8px #ffb8e6;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.login-popup h2 {
+    text-align: center;
+    margin: 10px;
+}
+
+.login-popup p {
+    text-align: center;
+    margin: 10px 30px 10px 30px;
+    color: #979797;
+}
+
+.login-text-container {
+    padding: 0px 15px 20px 15px;
+}
+
+.login-text-container input {
+    text-align: center;
+    font-size: 26px;
+    width: 300px;
+    height: 40px;
+    background-color: #1f1f1f;
+    border: solid 4px #5f5f5f;
+    border-radius: 10px;
+    color: #ffb8e6
+}
+
+.continue-button {
+    font-size: 20px;
+}
+
+.continue-button:hover {
+    font-size: 20px;
+    color: #585858;
+    cursor: pointer;
+}
+
+header {
+    padding: 30px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 0, 0.31);
+}
+
+.server-title, .checkout {
+    padding: 15px;
+    border: solid 6px rgb(73, 0, 117);
+    border-top: solid 3px rgb(73, 0, 117);
+    border-bottom: solid 3px rgb(73, 0, 117);
+    border-radius: 15px;
+}
+
+.server-title img {
+    width: 500px;
+    height: auto;
+}
+
+.title-page {
+    padding-top: 40px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.title-page h2 {
+    width: 180px;
+    font-size: 40px;
+}
+
 .package-table {
+    margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -20,6 +122,10 @@ body {
 
 table {
     border-spacing: 10px 0;
+}
+
+tr:hover td {
+    background-color: #343434;
 }
 
 td {
@@ -30,7 +136,7 @@ td {
     border-collapse: separate;
     border-spacing: 6px 2px;
     border-bottom: solid 2px #303030;
-    border-bottom: solid 2px #303030;
+    border-top: solid 2px #303030;
     border-left: solid 2px #585858;
     border-right: solid 2px #585858;
 }
@@ -39,6 +145,7 @@ td {
     width: 150px;
     padding-left: 25px;
     padding-right: 25px;
+    text-align: left;
 }
 
 td img {
@@ -58,4 +165,41 @@ td img {
 .td-final {
     border-bottom: solid 2px #585858;
     border-radius: 0 0 15px 15px;
+}
+
+.info {
+    margin-top: 60px;
+    padding-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+}
+
+.info h2 {
+    width: 800px;
+    margin: 20px;
+    font-size: 24px;
+}
+
+.info p {
+    width: 800px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+footer {
+    margin-top: 100px;
+    padding-top: 10px;
+    height: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgb(20, 20, 20);
+    font-size: 14px;
+}
+
+footer p {
+    padding: 0 10px 0 10px;
 }

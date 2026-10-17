@@ -1,16 +1,93 @@
 ﻿@page "/"
+@inject IJSRuntime js
 
 <body>
+    @if (ShowLoginPopup)
+    {
+        <div class="login-container">
+            <div class="login-popup">
+                <h2>What's your Username?</h2>
+                <p>Please enter your Minecraft username to continue, you won't be asked to login to Mojang, this is just to make sure your account exists</p>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <p style="color: #ff6b6b; margin: 5px; font-weight: bold;">@ErrorMessage</p>
+                }
+                <div class="login-text-container">
+                    <input type="text" @bind-value=Username @bind-value:event="oninput" @onkeyup="HandleKeyUp" />
+                </div>
+                <a class="continue-button" @onclick=FindAccount>
+                    @(IsLoading ? "Checking..." : "Continue")
+                </a>
+            </div>
+        </div>
+    }
+    <header>
+        <div class="server-title">
+            <img src="../Images/server_title.png" />
+        </div>
+        <div class="checkout">
+            <div class="login">
+                @if (!ShowLoginPopup && !string.IsNullOrEmpty(Username))
+                {
+                    <p>Logged in as: <strong>@Username</strong> <button @onclick="Logout">Change</button></p>
+                }
+            </div>
+            <div class="basket">
+                <button @onclick=Checkout>Checkout</button>
+            </div>
+        </div>
+    </header>
+    <div class="title-page">
+        <h2>Shop</h2>
+        <h2></h2>
+        <h2></h2>
+        <h2></h2>
+        <h2></h2>
+        <h2></h2>
+    </div>
     <div class="package-table">
         <table>
             <thead>
                 <tr>
                     <th><Package Empty=true/></th>
-                    <th><Package/></th>
-                    <th><Package/></th>
-                    <th><Package/></th>
-                    <th><Package/></th>
-                    <th><Package/></th>
+                    <th>
+                        <Package 
+                            Name="Visitor" 
+                            Description="This is the default rank on the server"
+                            Price=""
+                            />
+                    </th>
+                    <th>
+                        <Package 
+                            Name="Regular" 
+                            Description="Once you've played for 100 hours, this rank will be rewarded to you"
+                            Price="" />
+                    </th>
+                    <th>
+                        <Package 
+                            Name="Token" 
+                            Description="If you don't want to wait 100 hours, become a Token Regular'"
+                            Price="4.99"
+                            Currency="USD"
+                            PackageID="7739072" />
+                    </th>
+                    <th>
+                        <Package 
+                            Name="Contributor" 
+                            Description="To have a bigger impact, become a Contributor"
+                            Price="14.99"
+                            Currency="USD"
+                            PackageID="7739073" />
+                    </th>
+                    <th>
+                        <Package 
+                            Name="Patreon" 
+                            Description="Monthly Subscription to access powerful tools like EzEdits & Arceon"
+                            Price="9.99"
+                            Currency="USD"
+                            PackageID="7739078"
+                            Sub=true />
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -23,11 +100,11 @@
                     <td><img src="../images/patreon_prefix.png" /></td>
                 </tr>
                 <tr>
-                    <td class="side">Chat Prefix</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="side">Chat Suffix</td>
+                    <td><Cross /></td>
+                    <td><Cross /></td>
+                    <td><Cross /></td>
+                    <td><Cross /></td>
                     <td><img src="../images/patreon_suffix.png" /></td>
                 </tr>
                 <tr>
@@ -60,6 +137,22 @@
                     <td>1000</td>
                     <td>2000</td>
                     <td>4000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="side">WorldEdit, Axiom, & VoxelSniper</td>
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="side">Access to heads database</td>
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -97,15 +190,69 @@
             </tbody>
         </table>
     </div>
+    <div class="info">
+        <h2>About Ranks & Future Plans</h2>
+        <p>If you'd like to support Sakura Void, you can do so by purchasing a rank! The funds will go towards ongoing development of the server. It truly means the world that you'd even consider donating!</p>
+        <p>In the future, I'm hoping to upgrade server performance, add more cosmetics for Token, Contributor, & Patreon, and improve the server as a whole experience with better QoL changes based off feedback. Down the line Patreon Subscriptions will also gain access to more tools and a bunch of schematics!</p>
+    </div>
+    <footer>
+        <p>Copyright © Sakura Void 2026. All Rights Reserved.</p>
+        <p>This Product has not approved by or associated with Mojang Studios and/or Microsoft.</p>
+    </footer>
 </body>
 
 @code {
-    public string TebexPublicKey = "14x65-0efc322f98ad8bb72df89be7e4286e76cdafa449";
+    public string Username { get; set; } = "";
+    public string ErrorMessage { get; set; } = "";
+    public bool ShowLoginPopup { get; set; } = true;
+    public bool IsLoading { get; set; } = false;
 
-    protected override void OnInitialized()
+    public class LoginResult
     {
+        public bool Success { get; set; }
+        public string Message { get; set; } = "";
+    }
 
+    private async Task HandleKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await FindAccount();
+        }
+    }
 
-        base.OnInitialized();
+    protected async Task FindAccount()
+    {
+        if (string.IsNullOrWhiteSpace(Username))
+        {
+            ErrorMessage = "Please enter a username.";
+            return;
+        }
+
+        IsLoading = true;
+        ErrorMessage = "";
+
+        var result = await js.InvokeAsync<LoginResult>("loginToBasket", Username);
+
+        IsLoading = false;
+
+        if (result != null && result.Success)
+        {
+            ShowLoginPopup = false;
+        }
+        else
+        {
+            ErrorMessage = result?.Message ?? "Couldn't find Minecraft account";
+        }
+    }
+
+    protected void Logout()
+    {
+        ShowLoginPopup = true;
+    }
+
+    protected async Task Checkout()
+    {
+        await js.InvokeVoidAsync("launchCheckout");
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("sakuravoid.fyi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+079c13dafd05dd12657e0427e88e28dd8bdeef15")]
 [assembly: System.Reflection.AssemblyProductAttribute("sakuravoid.fyi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("sakuravoid.fyi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
