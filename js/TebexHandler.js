@@ -25,11 +25,12 @@ async function fetchStorePackages() {
 // 1. Manages basket creation using 'sakuravoid_tebex_basket_ident'
 async function getOrCreateBasket() {
     let basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
+    let minecraftUsername = localStorage.getItem("sakuravoid_username");
     if (!basketIdent) {
         const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ currency: "USD" })
+            body: JSON.stringify({ currency: "USD", username: minecraftUsername })
         });
         const result = await response.json();
         basketIdent = result.data.ident;
@@ -50,18 +51,6 @@ async function authorizeTebexBasket(basketIdent) {
         const errorData = await response.json().catch(() => null);
         console.error("Tebex Basket Auth Error:", errorData);
         throw new Error("Failed to initialize Tebex basket authorization.");
-    }
-
-    try {
-        const username = localStorage.getItem("sakuravoid_username");
-
-        await fetch(`https://headless.tebex.io/api/baskets/${basketIdent}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username: username })
-        });
-    } catch (err) {
-        console.warn("Could not bind username to basket:", err);
     }
 
     return await response.json();
