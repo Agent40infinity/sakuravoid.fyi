@@ -93,6 +93,7 @@
         try
         {
             var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
+            Console.Write(basketData);
 
             if (basketData != null && basketData.rows != null)
             {
