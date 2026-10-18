@@ -56,14 +56,38 @@
         public string Currency { get; set; } = "USD";
     }
 
+    // Helper classes to match Tebex JSON structure
+    public class TebexBasketResponse
+    {
+        public List<TebexRow> rows { get; set; } = new();
+        public TebexCurrency currency { get; set; } = new();
+    }
+
+    public class TebexRow
+    {
+        public int quantity { get; set; }
+        public TebexItem item { get; set; } = new();
+        public decimal price { get; set; }
+    }
+
+    public class TebexItem
+    {
+        public string name { get; set; } = "";
+    }
+
+    public class TebexCurrency
+    {
+        public string iso_4217 { get; set; } = "USD";
+    }
+
     private bool IsBasketOpen = false;
-    private List<BasketItemModel> BasketItems = new List<BasketItemModel>();
+    private List<BasketItemModel> BasketItems = new();
     private decimal BasketTotal => BasketItems.Sum(i => decimal.TryParse(i.Price, out var p) ? p : 0m);
 
     private async Task ToggleBasket()
     {
         IsBasketOpen = !IsBasketOpen;
-        if(IsBasketOpen)
+        if (IsBasketOpen)
         {
             await RefreshBasket();
         }
@@ -71,7 +95,35 @@
 
     private async Task RefreshBasket()
     {
-        await js.InvokeVoidAsync("getBasketDetails");
+        try
+        {
+            // Call the JavaScript function we added to TebexHandler.js
+            var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
+
+            if (basketData != null && basketData.rows != null)
+            {
+                BasketItems.Clear();
+                string currencyCode = basketData.currency?.iso_4217 ?? "USD";
+
+                foreach (var row in basketData.rows)
+                {
+                    for (int i = 0; i < row.quantity; i++)
+                    {
+                        BasketItems.Add(new BasketItemModel
+                        {
+                            Name = row.item?.name ?? "Unknown Package",
+                            Price = row.price.ToString("F2"),
+                            Currency = currencyCode
+                        });
+                    }
+                }
+                StateHasChanged(); // Tell Blazor to re-render the popup with the new items
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine("Error refreshing basket: " + ex.Message);
+        }
     }
 
     protected async Task Checkout()
