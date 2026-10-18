@@ -71,7 +71,7 @@
 
     private async Task RefreshBasket()
     {
-        // You can invoke getBasketDetails JS function here or manage local item state
+        await js.InvokeVoidAsync("getBasketDetails");
     }
 
     protected async Task Checkout()
