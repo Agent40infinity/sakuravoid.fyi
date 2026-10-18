@@ -56,11 +56,11 @@
         public string Currency { get; set; } = "USD";
     }
 
-    // Helper classes to match Tebex JSON structure
+    // Updated helper classes to safely parse Tebex basket response
     public class TebexBasketResponse
     {
         public List<TebexRow> rows { get; set; } = new();
-        public TebexCurrency currency { get; set; } = new();
+        public string currency { get; set; } = "USD"; // Tebex returns currency as a string or handled safely here
     }
 
     public class TebexRow
@@ -73,11 +73,6 @@
     public class TebexItem
     {
         public string name { get; set; } = "";
-    }
-
-    public class TebexCurrency
-    {
-        public string iso_4217 { get; set; } = "USD";
     }
 
     private bool IsBasketOpen = false;
@@ -97,13 +92,12 @@
     {
         try
         {
-            // Call the JavaScript function we added to TebexHandler.js
             var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
 
             if (basketData != null && basketData.rows != null)
             {
                 BasketItems.Clear();
-                string currencyCode = basketData.currency?.iso_4217 ?? "USD";
+                string currencyCode = string.IsNullOrEmpty(basketData.currency) ? "USD" : basketData.currency;
 
                 foreach (var row in basketData.rows)
                 {
@@ -117,7 +111,7 @@
                         });
                     }
                 }
-                StateHasChanged(); // Tell Blazor to re-render the popup with the new items
+                StateHasChanged();
             }
         }
         catch (Exception ex)
