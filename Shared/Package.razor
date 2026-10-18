@@ -66,6 +66,13 @@
             return;    
         }
 
+        var savedUser = await js.InvokeAsync<string>("localStorage.getItem", "sakuravoid_username");
+
+        if (string.IsNullOrEmpty(savedUser))
+        {
+            return;
+        }
+
         await js.InvokeVoidAsync("addPackageToBasket", PackageID);
     }
 }

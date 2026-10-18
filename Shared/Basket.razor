@@ -1,0 +1,81 @@
+﻿@inject IJSRuntime js
+
+<!-- Fixed Bottom Right Basket Component -->
+<div class="floating-basket-container">
+    @if (IsBasketOpen)
+    {
+        <div class="basket-popup">
+            <div class="basket-popup-header">
+                <h3>Your Basket</h3>
+                <button class="close-btn" @onclick="ToggleBasket">×</button>
+            </div>
+            <div class="basket-items-list">
+                @if (BasketItems.Count == 0)
+                {
+                    <p class="basket-empty-msg">Your basket is currently empty.</p>
+                }
+                else
+                {
+                    @foreach (var item in BasketItems)
+                    {
+                        <div class="basket-item">
+                            <div class="basket-item-info">
+                                <span class="basket-item-name">@item.Name</span>
+                                <span class="basket-item-price">$@item.Price @item.Currency</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="basket-popup-footer">
+                <div class="basket-total">
+                    <span>Total:</span>
+                    <span>$@BasketTotal.ToString("F2") USD</span>
+                </div>
+                <button class="basket-checkout-btn" @onclick="Checkout">
+                    Checkout
+                </button>
+            </div>
+        </div>
+    }
+
+    <div class="basket-toggle-btn" @onclick="ToggleBasket">
+        <img src="../SVG/Basket.svg" alt="Basket" class="basket-toggle-icon" />
+        @if (BasketItems.Count > 0)
+        {
+            <div class="basket-badge">@BasketItems.Count</div>
+        }
+    </div>
+</div>
+
+@code {
+    public class BasketItemModel
+    {
+        public string Name { get; set; } = "";
+        public string Price { get; set; } = "0.00";
+        public string Currency { get; set; } = "USD";
+    }
+
+    private bool IsBasketOpen = false;
+    private List<BasketItemModel> BasketItems = new List<BasketItemModel>();
+    private decimal BasketTotal => BasketItems.Sum(i => decimal.TryParse(i.Price, out var p) ? p : 0m);
+
+    private async Task ToggleBasket()
+    {
+        IsBasketOpen = !IsBasketOpen;
+        if(IsBasketOpen)
+        {
+            await RefreshBasket();
+        }
+    }
+
+    private async Task RefreshBasket()
+    {
+        // You can invoke getBasketDetails JS function here or manage local item state
+    }
+
+    protected async Task Checkout()
+    {
+        await js.InvokeVoidAsync("launchCheckout");
+    }
+}

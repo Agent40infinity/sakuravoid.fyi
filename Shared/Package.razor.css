@@ -51,6 +51,11 @@ h3 {
     align-items: center;
 }
 
+.buy-button:hover {
+    cursor: pointer;
+    background-color: #a863b0;
+}
+
 .buy-button img {
     margin-right: 5px;
     margin-left: 5px;
@@ -77,4 +82,8 @@ h3 {
     color: #390046;
     background-color: #a863b0;
     border: solid 2px #ffb8e6;
+}
+
+.subscribe:hover {
+    background-color: #9a42ff;
 }

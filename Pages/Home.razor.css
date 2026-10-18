@@ -95,9 +95,41 @@ header {
     border-radius: 15px;
 }
 
+.checkout {
+    padding: 8px 15px 8px 15px;
+}
+
+.login {
+    min-width: 123px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.login:hover {
+    cursor: pointer;
+    color: #585858;
+}
+
+.login:hover img {
+    filter: invert(40%);
+    transform: translateY(3px) scale(0.8);
+}
+
+.login p {
+    margin-top: auto;
+    margin-bottom: 2px;
+}
+
 .server-title img {
     width: 500px;
     height: auto;
+}
+
+.skin-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 6px;
 }
 
 .title-page {
@@ -124,7 +156,19 @@ table {
     border-spacing: 10px 0;
 }
 
-tr:hover td {
+tbody tr:nth-child(even) td {
+    background-color: #232127;
+}
+
+tbody tr:nth-child(odd) td {
+    background-color: #1b1a1e;
+}
+
+tbody tr:nth-child(odd):hover td {
+    background-color: #343434;
+}
+
+tbody tr:nth-child(even):hover td {
     background-color: #343434;
 }
 

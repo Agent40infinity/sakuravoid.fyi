@@ -22,17 +22,16 @@
             </div>
         </div>
     }
+    <Basket />
     <header>
         <div class="server-title">
             <img src="../Images/server_title.png" />
         </div>
         <div class="checkout">
-            <div class="login">
-                @if (!ShowLoginPopup && !string.IsNullOrEmpty(Username))
-                {
-                    <p>Logged in as: <strong>@Username</strong> <button @onclick="Logout">Change</button></p>
-                }
-            </div>
+            <a class="login" @onclick="Logout" @onmouseover="() => HoverLogout = true" @onmouseout="() => HoverLogout = false">
+                <img class="skin-icon" src="@LoggedInButton()" />
+                <p>@(HoverLogout ? "Logout" : !string.IsNullOrEmpty(Username) ? @Username : "Username")</p>
+            </a>
             <div class="basket">
                
             </div>
@@ -207,6 +206,7 @@
     public string ErrorMessage { get; set; } = "";
     public bool ShowLoginPopup { get; set; } = true;
     public bool IsLoading { get; set; } = false;
+    public bool HoverLogout = false;
 
     public class MojangProfile
     {
@@ -214,9 +214,12 @@
         public string Name { get; set; } = "";
     }
 
+    public string LoggedInButton() => HoverLogout ? "../SVG/Logout.svg" : "https://minotar.net/avatar/" + Username + "/32";
+
     protected override async Task OnInitializedAsync()
     {
         var savedUser = await js.InvokeAsync<string>("localStorage.getItem", "sakuravoid_username");
+
         if (!string.IsNullOrEmpty(savedUser))
         {
             Username = savedUser;
@@ -243,6 +246,7 @@
         }
 
         string cleanUsername = Username.Trim();
+
         if (!System.Text.RegularExpressions.Regex.IsMatch(cleanUsername, "^[a-zA-Z0-9_]{3,16}$"))
         {
             ErrorMessage = "Invalid Minecraft username format.";
@@ -254,13 +258,13 @@
 
         try
         {
-            // C# HttpClient call handles Mojang lookup seamlessly with zero browser CORS overhead
             string verifiedName = cleanUsername;
             var response = await Http.GetAsync($"https://api.mojang.com/users/profiles/minecraft/{cleanUsername}");
 
             if (response.IsSuccessStatusCode)
             {
                 var profile = await response.Content.ReadFromJsonAsync<MojangProfile>();
+
                 if (profile != null && !string.IsNullOrEmpty(profile.Name))
                 {
                     verifiedName = profile.Name;
@@ -273,11 +277,9 @@
                 return;
             }
 
-            // Save verified name to 'sakuravoid_username'
             await js.InvokeVoidAsync("localStorage.setItem", "sakuravoid_username", verifiedName);
             Username = verifiedName;
 
-            // Trigger separate JavaScript Tebex Session Initialization & Auth
             await js.InvokeVoidAsync("initializeTebexStoreSession");
 
             IsLoading = false;
@@ -296,10 +298,5 @@
         await js.InvokeVoidAsync("localStorage.removeItem", "sakuravoid_username");
         Username = "";
         ShowLoginPopup = true;
-    }
-
-    protected async Task Checkout()
-    {
-        await js.InvokeVoidAsync("launchCheckout");
     }
 }
