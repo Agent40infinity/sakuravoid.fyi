@@ -400,6 +400,10 @@ footer p[b-delvoxmjka] {
     color: #aa5fff;
 }
 
+.basket-item-remove:hover[b-l8ozb381y4] {
+    cursor: pointer;
+}
+
 .basket-footer[b-l8ozb381y4] {
     padding: 12px 16px;
     background-color: #1f1f1f;
