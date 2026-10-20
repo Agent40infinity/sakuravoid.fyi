@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "sakuravoid.fyi",
   "resources": {
-    "hash": "sha256-NG4QLZ6ltjBk37hCT2bUyO3UMt83FI2QQnwfa9zQFZI=",
+    "hash": "sha256-imB5hGqD1Obp1Ov54EtJODw3YrGxAdttjchvSAVPSE4=",
     "jsModuleNative": {
       "dotnet.native.8.0.32.7khlrjk2ob.js": "sha256-6mDkQm8wcqsePLieS1uDjmZJGTlxyzuaoKrjt7Rlztk="
     },
@@ -31,7 +31,7 @@
       "Microsoft.Extensions.Primitives.wasm": "sha256-6187ynEahDlSLMBvD4vAmiLpZ3clRb5xu6rM7O8AxNo=",
       "Microsoft.JSInterop.wasm": "sha256-A5jay/Yoey3an9sjxLxyNwTNW/VLHs7NZeEocewSe5w=",
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-1RU3QxK6cl9SuFE8eHdLid3P8O0LfOJRvWRfXJFBsG0=",
-      "sakuravoid.fyi.wasm": "sha256-dLe2yFJH+xMGsg6C2yKx0wMKxa8x3xj6u/MwFWkt5m0=",
+      "sakuravoid.fyi.wasm": "sha256-tX//qJxabx+wYiyftVDcT+u5egTGLfDy4WPxdLG4tNg=",
       "System.Collections.Concurrent.wasm": "sha256-vbR9Ur601sf9DImIoSmmQnCc0W6EjKDWbmEPqkJw5Dw=",
       "System.Collections.wasm": "sha256-lsSB7cUee2VoMtZR5U4gwdScHrA74UFtAJKoK7o97ac=",
       "System.ComponentModel.wasm": "sha256-jPHxRVFGzPIYPyCOxGNLfe84JL6lTEOG1ustJ2gwhIo=",

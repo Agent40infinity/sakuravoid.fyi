@@ -30,12 +30,18 @@ async function getBasketDetails() {
     if (!basketIdent) return null;
 
     try {
-        const response = await fetch(`https://headless.tebex.io/api/baskets/${basketIdent}`, {
+        const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         });
 
-        if (!response.ok) return null;
+        if (!response.ok) {
+            // If the basket expired or identifier is invalid, clear it so a new one can be created
+            if (response.status === 404) {
+                localStorage.removeItem("sakuravoid_tebex_basket_ident");
+            }
+            return null;
+        }
 
         const result = await response.json();
         return result.data;
