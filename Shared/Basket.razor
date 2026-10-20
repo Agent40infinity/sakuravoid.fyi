@@ -1,5 +1,4 @@
 ﻿@inject IJSRuntime js
-@implements IDisposable
 
 <div class="basket-container">
     @if (IsBasketOpen)
@@ -84,12 +83,8 @@
     private decimal BasketTotal => BasketItems.Sum(i => decimal.TryParse(i.Price, out var p) ? p : 0m);
     private int TotalItemCount => BasketItems.Sum(i => i.Quantity);
 
-    private DotNetObjectReference<Basket>? objRef;
-
     protected override async Task OnInitializedAsync()
     {
-        objRef = DotNetObjectReference.Create(this);
-        await js.InvokeVoidAsync("registerBasketRef", objRef);
         await RefreshBasket();
     }
 
@@ -104,13 +99,7 @@
         }
     }
 
-    [JSInvokable]
-    public async Task ExternalRefresh()
-    {
-        await RefreshBasket();
-    }
-
-    private async Task RefreshBasket()
+    public async Task RefreshBasket()
     {
         try
         {
@@ -147,16 +136,13 @@
     private async Task DecreaseQuantity(long packageId, int currentQuantity)
     {
         int newQty = currentQuantity - 1;
+
         await js.InvokeVoidAsync("updatePackageQuantity", packageId, newQty);
+        await RefreshBasket();
     }
 
     protected async Task Checkout()
     {
         await js.InvokeVoidAsync("launchCheckout");
-    }
-
-    public void Dispose()
-    {
-        objRef?.Dispose();
     }
 }

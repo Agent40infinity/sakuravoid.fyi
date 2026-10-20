@@ -143,7 +143,6 @@ async function updatePackageQuantity(packageId, newQuantity) {
         const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
         if (!basketIdent) return;
 
-        // If quantity is reduced to 0 or lower, remove it entirely or handle via API
         const endpoint = newQuantity <= 0
             ? `https://headless.tebex.io/api/baskets/${basketIdent}/packages/remove`
             : `https://headless.tebex.io/api/baskets/${basketIdent}/packages/${packageId}`;
@@ -159,10 +158,6 @@ async function updatePackageQuantity(packageId, newQuantity) {
 
         if (!response.ok) {
             throw new Error("Failed to update package quantity.");
-        }
-
-        if (window.triggerBasketRefresh) {
-            window.triggerBasketRefresh();
         }
     } catch (err) {
         console.error("Error updating package quantity:", err);
