@@ -54,21 +54,6 @@ async function getBasketDetails() {
     }
 }
 
-async function getBasketDetailsRaw() {
-    const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
-    if (!basketIdent) return "No ident found";
-
-    try {
-        const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
-        });
-        return await response.text();
-    } catch (err) {
-        return err.toString();
-    }
-}
-
 async function getOrCreateBasket()
 {
     let basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
