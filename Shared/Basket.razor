@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime js
+@implements IDisposable
 
 <div class="basket-container">
     @if (IsBasketOpen)
@@ -19,9 +20,10 @@
                     {
                         <div class="basket-item">
                             <div class="basket-item-info">
-                                <span class="basket-item-name">@item.Name</span>
+                                <span class="basket-item-name">@item.Name (x@item.Quantity)</span>
                                 <span class="basket-item-price">$@item.Price @item.Currency</span>
                             </div>
+                            <button class="basket-item-remove" @onclick="() => DecreaseQuantity(item.PackageId, item.Quantity)" title="Remove one">-</button>
                         </div>
                     }
                 }
@@ -29,7 +31,7 @@
             <div class="basket-footer">
                 <div class="basket-total">
                     <span>Total:</span>
-                    <span>$@BasketTotal.ToString("F2") USD</span>
+                    <span>$@BasketTotal.ToString("F2") @(BasketItems.FirstOrDefault()?.Currency ?? "USD")</span>
                 </div>
                 <button class="basket-checkout" @onclick="Checkout">
                     Checkout
@@ -40,18 +42,20 @@
 
     <div class="basket-toggle" @onclick="ToggleBasket">
         <img src="../SVG/Basket.svg" />
-        @if (BasketItems.Count > 0)
+        @if (TotalItemCount > 0)
         {
-            <div class="basket-count">@BasketItems.Count</div>
+            <div class="basket-count">@TotalItemCount</div>
         }
     </div>
 </div>
 
-@code 
+@code
 {
     public class BasketItemModel
     {
+        public long PackageId { get; set; }
         public string Name { get; set; } = "";
+        public int Quantity { get; set; } = 1;
         public string Price { get; set; } = "0.00";
         public string Currency { get; set; } = "USD";
     }
@@ -64,6 +68,7 @@
 
     public class TebexPackage
     {
+        public long id { get; set; }
         public string name { get; set; } = "";
         public TebexInBasket in_basket { get; set; } = new();
     }
@@ -77,9 +82,14 @@
     private bool IsBasketOpen = false;
     private List<BasketItemModel> BasketItems = new();
     private decimal BasketTotal => BasketItems.Sum(i => decimal.TryParse(i.Price, out var p) ? p : 0m);
+    private int TotalItemCount => BasketItems.Sum(i => i.Quantity);
+
+    private DotNetObjectReference<Basket>? objRef;
 
     protected override async Task OnInitializedAsync()
     {
+        objRef = DotNetObjectReference.Create(this);
+        await js.InvokeVoidAsync("registerBasketRef", objRef);
         await RefreshBasket();
     }
 
@@ -92,6 +102,12 @@
         {
             await RefreshBasket();
         }
+    }
+
+    [JSInvokable]
+    public async Task ExternalRefresh()
+    {
+        await RefreshBasket();
     }
 
     private async Task RefreshBasket()
@@ -108,17 +124,16 @@
                 foreach (var pkg in basketData.packages)
                 {
                     int qty = pkg.in_basket?.quantity > 0 ? pkg.in_basket.quantity : 1;
-                    decimal itemPrice = pkg.in_basket?.price ?? 0m;
+                    decimal unitPrice = pkg.in_basket?.price ?? 0m;
 
-                    for (int i = 0; i < qty; i++)
+                    BasketItems.Add(new BasketItemModel
                     {
-                        BasketItems.Add(new BasketItemModel
-                        {
-                            Name = pkg.name ?? "Unknown Package",
-                            Price = itemPrice.ToString("F2"),
-                            Currency = currencyCode
-                        });
-                    }
+                        PackageId = pkg.id,
+                        Name = pkg.name ?? "Unknown Package",
+                        Quantity = qty,
+                        Price = (unitPrice * qty).ToString("F2"),
+                        Currency = currencyCode
+                    });
                 }
                 StateHasChanged();
             }
@@ -129,8 +144,19 @@
         }
     }
 
+    private async Task DecreaseQuantity(long packageId, int currentQuantity)
+    {
+        int newQty = currentQuantity - 1;
+        await js.InvokeVoidAsync("updatePackageQuantity", packageId, newQty);
+    }
+
     protected async Task Checkout()
     {
         await js.InvokeVoidAsync("launchCheckout");
+    }
+
+    public void Dispose()
+    {
+        objRef?.Dispose();
     }
 }
