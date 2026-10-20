@@ -30,7 +30,7 @@ async function getBasketDetails() {
     if (!basketIdent) return null;
 
     try {
-        const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}`, {
+        const response = await fetch(`https://headless.tebex.io/api/baskets/${basketIdent}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         });
@@ -40,7 +40,7 @@ async function getBasketDetails() {
         const result = await response.json();
         return result.data;
     } catch (err) {
-        Console.error("Error fetching basket details:", err);
+        console.error("Error fetching basket details:", err);
         return null;
     }
 }
