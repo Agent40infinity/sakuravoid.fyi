@@ -149,6 +149,10 @@
     color: #aa5fff;
 }
 
+.basket-item-remove:hover {
+    cursor: pointer;
+}
+
 .basket-footer {
     padding: 12px 16px;
     background-color: #1f1f1f;
