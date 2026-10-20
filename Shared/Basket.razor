@@ -1,6 +1,5 @@
 ﻿@inject IJSRuntime js
 
-<!-- Fixed Bottom Right Basket Component -->
 <div class="basket-container">
     @if (IsBasketOpen)
     {
@@ -56,11 +55,10 @@
         public string Currency { get; set; } = "USD";
     }
 
-    // Updated helper classes to safely parse Tebex basket response
     public class TebexBasketResponse
     {
         public List<TebexRow> rows { get; set; } = new();
-        public string currency { get; set; } = "USD"; // Tebex returns currency as a string or handled safely here
+        public string currency { get; set; } = "USD";
     }
 
     public class TebexRow
