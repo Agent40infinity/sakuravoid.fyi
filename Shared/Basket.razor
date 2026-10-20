@@ -19,7 +19,7 @@
                     {
                         <div class="basket-item">
                             <div class="basket-item-info">
-                                <span class="basket-item-name">@item.Name (x@item.Quantity)</span>
+                                <span class="basket-item-name">@item.Name @(item.Quantity > 1 ? "(x" + @item.Quantity + ")" : "")</span>
                                 <span class="basket-item-price">$@item.Price @item.Currency</span>
                             </div>
                             <button class="basket-item-remove" @onclick="() => DecreaseQuantity(item.PackageId, item.Quantity)" title="Remove one">-</button>
