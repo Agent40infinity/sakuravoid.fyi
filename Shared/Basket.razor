@@ -77,6 +77,11 @@
     private List<BasketItemModel> BasketItems = new();
     private decimal BasketTotal => BasketItems.Sum(i => decimal.TryParse(i.Price, out var p) ? p : 0m);
 
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshBasket();
+    }
+
     private async Task ToggleBasket()
     {
         IsBasketOpen = !IsBasketOpen;
