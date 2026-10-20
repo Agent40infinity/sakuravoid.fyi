@@ -53,7 +53,6 @@ async function getBasketDetails() {
         return null;
     }
 }
-}
 
 async function getOrCreateBasket()
 {
