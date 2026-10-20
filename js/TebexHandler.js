@@ -138,6 +138,32 @@ async function addPackageToBasket(packageId)
     }
 }
 
+async function updatePackageQuantity(packageId, newQuantity) {
+    try {
+        const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
+        if (!basketIdent) return;
+
+        const endpoint = newQuantity <= 0
+            ? `https://headless.tebex.io/api/baskets/${basketIdent}/packages/remove`
+            : `https://headless.tebex.io/api/baskets/${basketIdent}/packages/${packageId}`;
+
+        const method = newQuantity <= 0 ? "POST" : "PUT";
+        const body = newQuantity <= 0 ? { package_id: Number(packageId) } : { quantity: Number(newQuantity) };
+
+        const response = await fetch(endpoint, {
+            method: method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to update package quantity.");
+        }
+    } catch (err) {
+        console.error("Error updating package quantity:", err);
+    }
+}
+
 async function launchCheckout() {
     const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
     const username = localStorage.getItem("sakuravoid_username");
