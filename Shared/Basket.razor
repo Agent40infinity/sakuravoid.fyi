@@ -47,7 +47,8 @@
     </div>
 </div>
 
-@code {
+@code 
+{
     public class BasketItemModel
     {
         public string Name { get; set; } = "";
@@ -55,22 +56,27 @@
         public string Currency { get; set; } = "USD";
     }
 
-    public class TebexBasketResponse
+    public class TebexBasketResponseWrapper
     {
-        public List<TebexRow> rows { get; set; } = new();
+        public TebexBasketData data { get; set; } = new();
+    }
+
+    public class TebexBasketData
+    {
+        public List<TebexPackage> packages { get; set; } = new();
         public string currency { get; set; } = "USD";
     }
 
-    public class TebexRow
-    {
-        public int quantity { get; set; }
-        public TebexItem item { get; set; } = new();
-        public decimal price { get; set; }
-    }
-
-    public class TebexItem
+    public class TebexPackage
     {
         public string name { get; set; } = "";
+        public TebexInBasket in_basket { get; set; } = new();
+    }
+
+    public class TebexInBasket
+    {
+        public int quantity { get; set; }
+        public decimal price { get; set; }
     }
 
     private bool IsBasketOpen = false;
@@ -97,25 +103,24 @@
     {
         try
         {
-            // Fetch raw JSON string from JS to see exact property mismatch in F12 console
-            var jsonString = await js.InvokeAsync<string>("getBasketDetailsRaw");
-            Console.WriteLine("RAW BASKET JSON: " + jsonString);
+            var responseWrapper = await js.InvokeAsync<TebexBasketResponseWrapper>("getBasketDetails");
 
-            var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
-
-            if (basketData != null && basketData.rows != null)
+            if (responseWrapper != null && responseWrapper.data != null && responseWrapper.data.packages != null)
             {
                 BasketItems.Clear();
-                string currencyCode = string.IsNullOrEmpty(basketData.currency) ? "USD" : basketData.currency;
+                string currencyCode = string.IsNullOrEmpty(responseWrapper.data.currency) ? "USD" : responseWrapper.data.currency;
 
-                foreach (var row in basketData.rows)
+                foreach (var pkg in responseWrapper.data.packages)
                 {
-                    for (int i = 0; i < row.quantity; i++)
+                    int qty = pkg.in_basket?.quantity > 0 ? pkg.in_basket.quantity : 1;
+                    decimal itemPrice = pkg.in_basket?.price ?? 0m;
+
+                    for (int i = 0; i < qty; i++)
                     {
                         BasketItems.Add(new BasketItemModel
                         {
-                            Name = row.item?.name ?? "Unknown Package",
-                            Price = row.price.ToString("F2"),
+                            Name = pkg.name ?? "Unknown Package",
+                            Price = itemPrice.ToString("F2"),
                             Currency = currencyCode
                         });
                     }
@@ -125,7 +130,7 @@
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine("Error refreshing basket: " + ex.ToString());
+            Console.Error.WriteLine("Error refreshing basket: " + ex.Message);
         }
     }
 
