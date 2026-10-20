@@ -85,6 +85,8 @@
     private async Task ToggleBasket()
     {
         IsBasketOpen = !IsBasketOpen;
+        StateHasChanged();
+
         if (IsBasketOpen)
         {
             await RefreshBasket();
