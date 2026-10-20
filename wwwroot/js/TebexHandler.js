@@ -27,7 +27,10 @@ async function fetchStorePackages()
 
 async function getBasketDetails() {
     const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
-    if (!basketIdent) return null;
+    if (!basketIdent) {
+        console.warn("getBasketDetails: No basket ident found in localStorage yet.");
+        return null;
+    }
 
     try {
         const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}`, {
@@ -36,7 +39,7 @@ async function getBasketDetails() {
         });
 
         if (!response.ok) {
-            // If the basket expired or identifier is invalid, clear it so a new one can be created
+            console.warn(`getBasketDetails: Failed with status ${response.status}`);
             if (response.status === 404) {
                 localStorage.removeItem("sakuravoid_tebex_basket_ident");
             }
@@ -49,6 +52,7 @@ async function getBasketDetails() {
         console.error("Error fetching basket details:", err);
         return null;
     }
+}
 }
 
 async function getOrCreateBasket()
