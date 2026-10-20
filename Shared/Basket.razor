@@ -6,7 +6,7 @@
         <div class="basket">
             <div class="basket-header">
                 <h3>Your Basket</h3>
-                <button class="basket-close" @onclick="ToggleBasket">×</button>
+                <a class="basket-close" @onclick="ToggleBasket">×</a>
             </div>
             <div class="basket-list">
                 @if (BasketItems.Count == 0)
@@ -22,7 +22,7 @@
                                 <span class="basket-item-name">@item.Name @(item.Quantity > 1 ? "(x" + @item.Quantity + ")" : "")</span>
                                 <span class="basket-item-price">$@item.Price @item.Currency</span>
                             </div>
-                            <button class="basket-item-remove" @onclick="() => DecreaseQuantity(item.PackageId, item.Quantity)" title="Remove one">-</button>
+                            <a class="basket-item-remove" @onclick="() => DecreaseQuantity(item.PackageId, item.Quantity)" title="Remove one">x</a>
                         </div>
                     }
                 }
@@ -32,9 +32,9 @@
                     <span>Total:</span>
                     <span>$@BasketTotal.ToString("F2") @(BasketItems.FirstOrDefault()?.Currency ?? "USD")</span>
                 </div>
-                <button class="basket-checkout" @onclick="Checkout">
+                <a class="basket-checkout" @onclick="Checkout">
                     Checkout
-                </button>
+                </a>
             </div>
         </div>
     }
