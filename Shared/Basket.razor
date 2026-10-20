@@ -97,8 +97,11 @@
     {
         try
         {
+            // Fetch raw JSON string from JS to see exact property mismatch in F12 console
+            var jsonString = await js.InvokeAsync<string>("getBasketDetailsRaw");
+            Console.WriteLine("RAW BASKET JSON: " + jsonString);
+
             var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
-            Console.Write(basketData);
 
             if (basketData != null && basketData.rows != null)
             {
@@ -122,7 +125,7 @@
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine("Error refreshing basket: " + ex.Message);
+            Console.Error.WriteLine("Error refreshing basket: " + ex.ToString());
         }
     }
 
