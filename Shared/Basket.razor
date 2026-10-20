@@ -56,12 +56,7 @@
         public string Currency { get; set; } = "USD";
     }
 
-    public class TebexBasketResponseWrapper
-    {
-        public TebexBasketData data { get; set; } = new();
-    }
-
-    public class TebexBasketData
+    public class TebexBasketResponse
     {
         public List<TebexPackage> packages { get; set; } = new();
         public string currency { get; set; } = "USD";
@@ -103,14 +98,14 @@
     {
         try
         {
-            var responseWrapper = await js.InvokeAsync<TebexBasketResponseWrapper>("getBasketDetails");
+            var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
 
-            if (responseWrapper != null && responseWrapper.data != null && responseWrapper.data.packages != null)
+            if (basketData != null && basketData.packages != null)
             {
                 BasketItems.Clear();
-                string currencyCode = string.IsNullOrEmpty(responseWrapper.data.currency) ? "USD" : responseWrapper.data.currency;
+                string currencyCode = string.IsNullOrEmpty(basketData.currency) ? "USD" : basketData.currency;
 
-                foreach (var pkg in responseWrapper.data.packages)
+                foreach (var pkg in basketData.packages)
                 {
                     int qty = pkg.in_basket?.quantity > 0 ? pkg.in_basket.quantity : 1;
                     decimal itemPrice = pkg.in_basket?.price ?? 0m;
