@@ -1,4 +1,37 @@
-﻿.basket-container {
+﻿/*Maybe Add*/
+.basket-notification {
+    position: absolute;
+    bottom: 75px;
+    right: 0;
+    background-color: #1f1f1f;
+    color: #ffb8e6;
+    padding: 8px 14px;
+    border: 2px solid #ffb8e6;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    animation: fadeInOut 0.2s ease-out;
+    z-index: 5001;
+}
+
+@keyframes fadeInOut {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/*Maybe Add*/
+
+
+
+.basket-container {
     position: fixed;
     bottom: 30px;
     right: 30px;

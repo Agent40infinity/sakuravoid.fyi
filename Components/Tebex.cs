@@ -12,6 +12,13 @@ namespace sakuravoid.fyi.Components
 
         public static event Action? OnUpdate;
 
+        public static event Action<string>? OnPackageAdded;
+
+        public static void TriggerPackageAdded(string packageName)
+        {
+            OnPackageAdded?.Invoke(packageName);
+        }
+
         public static async Task RefreshBasket(IJSRuntime js)
         {
             try

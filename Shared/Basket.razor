@@ -1,6 +1,11 @@
 ﻿@inject IJSRuntime js
 
 <div class="basket-container">
+    @if (ShowNotification)
+    {
+        <div class="basket-notification">@NotificationMessage</div>
+    }
+
     @if (IsBasketOpen)
     {
         <div class="basket">
@@ -51,25 +56,60 @@
 @code
 {
     private bool IsBasketOpen = false;
+    private string NotificationMessage = "";
+    private bool ShowNotification = false;
+    private CancellationTokenSource? _notifCts;
 
     protected override async Task OnInitializedAsync()
     {
-        Tebex.OnUpdate += StateHasChanged;
+        Tebex.OnUpdate += HandleBasketUpdated;
+        Tebex.OnPackageAdded += HandlePackageAdded;
 
         await Tebex.RefreshBasket(js);
+        StateHasChanged();
+    }
+
+    private void HandleBasketUpdated()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async void HandlePackageAdded(string packageName)
+    {
+        // Only show notification if the basket popup is closed
+        if (!IsBasketOpen)
+        {
+            NotificationMessage = $"{packageName} +1";
+            ShowNotification = true;
+
+            // Reset timer if another item is added quickly
+            _notifCts?.Cancel();
+            _notifCts = new CancellationTokenSource();
+
+            StateHasChanged();
+
+            try
+            {
+                await Task.Delay(1000, _notifCts.Token);
+                ShowNotification = false;
+                StateHasChanged();
+            }
+            catch (TaskCanceledException)
+            {
+                // Interrupted by a newer notification
+            }
+        }
     }
 
     private async Task ToggleBasket()
     {
         IsBasketOpen = !IsBasketOpen;
+        StateHasChanged();
 
         if (IsBasketOpen)
         {
             await Tebex.RefreshBasket(js);
-            return;
         }
-
-        StateHasChanged();
     }
 
     protected async Task Checkout()
