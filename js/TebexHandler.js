@@ -130,7 +130,7 @@ async function addPackageToBasket(packageId)
             throw new Error("Failed to add package to basket.");
         }
 
-        alert("Package successfully added to your cart!");
+        //Package Notification
     }
     catch (err) {
         console.error(err);
@@ -167,12 +167,6 @@ async function updatePackageQuantity(packageId, newQuantity) {
 async function launchCheckout() {
     const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
     const username = localStorage.getItem("sakuravoid_username");
-
-    if (!basketIdent)
-    {
-        alert("Your basket is empty!");
-        return;
-    }
 
     Tebex.checkout.init({
         ident: basketIdent,
