@@ -10,17 +10,16 @@ namespace sakuravoid.fyi.Components
         public static decimal BasketTotal => Basket.Sum(i => decimal.TryParse(i.Price, out var p) ? p : 0m);
         public static int TotalItemCount => Basket.Sum(i => i.Quantity);
 
+        public static event Action? OnUpdate;
+
         public static async Task RefreshBasket(IJSRuntime js)
         {
             try
             {
                 var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
 
-                Console.WriteLine("Start Refresh");
-
                 if (basketData != null && basketData.packages != null)
                 {
-                    Console.Write(Basket);
                     Basket.Clear();
                     string currencyCode = string.IsNullOrEmpty(basketData.currency) ? "USD" : basketData.currency;
 
@@ -39,8 +38,7 @@ namespace sakuravoid.fyi.Components
                         });
                     }
 
-                    Console.Write(Basket);
-                    //StateHasChanged();
+                    OnUpdate?.Invoke();
                 }
             }
             catch (Exception ex)
