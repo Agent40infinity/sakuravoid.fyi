@@ -251,9 +251,6 @@ footer p[b-delvoxmjka] {
 /* /Shared/Basket.razor.rz.scp.css */
 /*Maybe Add*/
 .basket-notification[b-l8ozb381y4] {
-    position: absolute;
-    bottom: 75px;
-    right: 0;
     background-color: #1f1f1f;
     color: #ffb8e6;
     padding: 8px 14px;
@@ -263,8 +260,8 @@ footer p[b-delvoxmjka] {
     font-weight: bold;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
     white-space: nowrap;
+    margin-bottom: 8px;
     animation: fadeInOut-b-l8ozb381y4 0.2s ease-out;
-    z-index: 5001;
 }
 
 @keyframes fadeInOut-b-l8ozb381y4 {
@@ -272,7 +269,6 @@ footer p[b-delvoxmjka] {
         opacity: 0;
         transform: translateY(5px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
