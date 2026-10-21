@@ -16,8 +16,11 @@ namespace sakuravoid.fyi.Components
             {
                 var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
 
+                Console.WriteLine("Start Refresh");
+
                 if (basketData != null && basketData.packages != null)
                 {
+                    Console.Write(Basket);
                     Basket.Clear();
                     string currencyCode = string.IsNullOrEmpty(basketData.currency) ? "USD" : basketData.currency;
 
@@ -36,6 +39,7 @@ namespace sakuravoid.fyi.Components
                         });
                     }
 
+                    Console.Write(Basket);
                     //StateHasChanged();
                 }
             }
