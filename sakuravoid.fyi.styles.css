@@ -261,17 +261,28 @@ footer p[b-delvoxmjka] {
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
     white-space: nowrap;
     margin-bottom: 8px;
-    animation: fadeInOut-b-l8ozb381y4 0.2s ease-out;
+    animation: fadeInOut-b-l8ozb381y4 2s ease-in-out forwards;
 }
 
 @keyframes fadeInOut-b-l8ozb381y4 {
-    from {
+    0% {
         opacity: 0;
         transform: translateY(5px);
     }
-    to {
+
+    15% {
         opacity: 1;
         transform: translateY(0);
+    }
+
+    85% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-5px);
     }
 }
 /*Maybe Add*/
