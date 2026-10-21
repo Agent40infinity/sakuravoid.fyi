@@ -208,12 +208,6 @@
     public bool IsLoading { get; set; } = false;
     public bool HoverLogout = false;
 
-    public class MojangProfile
-    {
-        public string Id { get; set; } = "";
-        public string Name { get; set; } = "";
-    }
-
     public string LoggedInButton() => HoverLogout ? "../SVG/Logout.svg" : "https://minotar.net/avatar/" + Username + "/32";
 
     protected override async Task OnInitializedAsync()
@@ -259,23 +253,19 @@
         try
         {
             string verifiedName = cleanUsername;
-            var response = await Http.GetAsync($"https://api.mojang.com/users/profiles/minecraft/{cleanUsername}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                var profile = await response.Content.ReadFromJsonAsync<MojangProfile>();
-
-                if (profile != null && !string.IsNullOrEmpty(profile.Name))
-                {
-                    verifiedName = profile.Name;
-                }
-            }
-            else
+            var response = await Http.GetAsync($"https://playerdb.co/api/player/minecraft/{cleanUsername}");
+            var result = await response.Content.ReadFromJsonAsync<PlayerDbResponse>();
+           
+            if (!response.IsSuccessStatusCode || result == null || !result.Success || result.Data?.Player == null)
             {
                 IsLoading = false;
                 ErrorMessage = "Minecraft account does not exist.";
+
                 return;
             }
+
+            verifiedName = result.Data.Player.Username;
 
             await js.InvokeVoidAsync("localStorage.setItem", "sakuravoid_username", verifiedName);
             Username = verifiedName;
@@ -289,7 +279,7 @@
         {
             IsLoading = false;
             Console.Error.WriteLine(ex);
-            ErrorMessage = "Error connecting to Mojang verification service.";
+            ErrorMessage = "Error with verification services, report to admin";
         }
     }
 
