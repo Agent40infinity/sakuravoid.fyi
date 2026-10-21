@@ -9,20 +9,20 @@
                 <button class="basket-close" @onclick="ToggleBasket">×</button>
             </div>
             <div class="basket-list">
-                @if (BasketItems.Count == 0)
+                @if (Tebex.Basket.Count == 0)
                 {
                     <p class="basket-empty">Your basket is currently empty.</p>
                 }
                 else
                 {
-                    @foreach (var item in BasketItems)
+                    @foreach (var item in Tebex.Basket)
                     {
                         <div class="basket-item">
                             <div class="basket-item-info">
                                 <span class="basket-item-name">@item.Name @(item.Quantity > 1 ? "(x" + @item.Quantity + ")" : "")</span>
                                 <span class="basket-item-price">$@item.Price @item.Currency</span>
                             </div>
-                            <a class="basket-item-remove" @onclick="() => DecreaseQuantity(item.PackageId, item.Quantity)" title="Remove one">x</a>
+                            <a class="basket-item-remove" @onclick="() => Tebex.DecreaseQuantity(js, item.PackageId, item.Quantity)" title="Remove one">x</a>
                         </div>
                     }
                 }
@@ -30,7 +30,7 @@
             <div class="basket-footer">
                 <div class="basket-total">
                     <span>Total:</span>
-                    <span>$@BasketTotal.ToString("F2") @(BasketItems.FirstOrDefault()?.Currency ?? "USD")</span>
+                    <span>$@Tebex.BasketTotal.ToString("F2") @(Tebex.Basket.FirstOrDefault()?.Currency ?? "USD")</span>
                 </div>
                 <button class="basket-checkout" @onclick="Checkout">
                     Checkout
@@ -41,104 +41,30 @@
 
     <div class="basket-toggle" @onclick="ToggleBasket">
         <img src="../SVG/Basket.svg" />
-        @if (TotalItemCount > 0)
+        @if (Tebex.TotalItemCount > 0)
         {
-            <div class="basket-count">@TotalItemCount</div>
+            <div class="basket-count">@Tebex.TotalItemCount</div>
         }
     </div>
 </div>
 
 @code
 {
-    public class BasketItemModel
-    {
-        public long PackageId { get; set; }
-        public string Name { get; set; } = "";
-        public int Quantity { get; set; } = 1;
-        public string Price { get; set; } = "0.00";
-        public string Currency { get; set; } = "USD";
-    }
-
-    public class TebexBasketResponse
-    {
-        public List<TebexPackage> packages { get; set; } = new();
-        public string currency { get; set; } = "USD";
-    }
-
-    public class TebexPackage
-    {
-        public long id { get; set; }
-        public string name { get; set; } = "";
-        public TebexInBasket in_basket { get; set; } = new();
-    }
-
-    public class TebexInBasket
-    {
-        public int quantity { get; set; }
-        public decimal price { get; set; }
-    }
-
     private bool IsBasketOpen = false;
-    private List<BasketItemModel> BasketItems = new();
-    private decimal BasketTotal => BasketItems.Sum(i => decimal.TryParse(i.Price, out var p) ? p : 0m);
-    private int TotalItemCount => BasketItems.Sum(i => i.Quantity);
 
     protected override async Task OnInitializedAsync()
     {
-        await RefreshBasket();
+        await Tebex.RefreshBasket(js);
     }
 
     private async Task ToggleBasket()
     {
         IsBasketOpen = !IsBasketOpen;
-        StateHasChanged();
 
         if (IsBasketOpen)
         {
-            await RefreshBasket();
+            await Tebex.RefreshBasket(js);
         }
-    }
-
-    public async Task RefreshBasket()
-    {
-        try
-        {
-            var basketData = await js.InvokeAsync<TebexBasketResponse>("getBasketDetails");
-
-            if (basketData != null && basketData.packages != null)
-            {
-                BasketItems.Clear();
-                string currencyCode = string.IsNullOrEmpty(basketData.currency) ? "USD" : basketData.currency;
-
-                foreach (var pkg in basketData.packages)
-                {
-                    int qty = pkg.in_basket?.quantity > 0 ? pkg.in_basket.quantity : 1;
-                    decimal unitPrice = pkg.in_basket?.price ?? 0m;
-
-                    BasketItems.Add(new BasketItemModel
-                    {
-                        PackageId = pkg.id,
-                        Name = pkg.name ?? "Unknown Package",
-                        Quantity = qty,
-                        Price = (unitPrice * qty).ToString("F2"),
-                        Currency = currencyCode
-                    });
-                }
-                StateHasChanged();
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine("Error refreshing basket: " + ex.Message);
-        }
-    }
-
-    private async Task DecreaseQuantity(long packageId, int currentQuantity)
-    {
-        int newQty = currentQuantity - 1;
-
-        await js.InvokeVoidAsync("updatePackageQuantity", packageId, newQty);
-        await RefreshBasket();
     }
 
     protected async Task Checkout()
