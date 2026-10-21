@@ -71,6 +71,7 @@
         if (!string.IsNullOrEmpty(addedPackageName) && !IsBasketOpen)
         {
             string message = $"{addedPackageName} +1";
+
             Notifications.Add(message);
             StateHasChanged();
 

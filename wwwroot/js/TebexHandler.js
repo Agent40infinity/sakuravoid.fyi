@@ -14,39 +14,45 @@ async function fetchStorePackages()
         }
 
         const result = await response.json();
-        console.log("--- YOUR TEBEX PACKAGES ---");
 
-        result.data.forEach(pkg => {
-            console.log(`Name: "${pkg.name}" | ID: ${pkg.id} | Type: ${pkg.type}`);
-        });
+        return result.data;
     }
     catch (err) {
         console.error("Error fetching packages:", err);
     }
 }
 
-async function getBasketDetails() {
+async function getBasketDetails()
+{
     const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
-    if (!basketIdent) {
+
+    if (!basketIdent)
+    {
         console.warn("getBasketDetails: No basket ident found in localStorage yet.");
         return null;
     }
 
-    try {
+    try
+    {
         const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         });
 
-        if (!response.ok) {
+        if (!response.ok)
+        {
             console.warn(`getBasketDetails: Failed with status ${response.status}`);
-            if (response.status === 404) {
+
+            if (response.status === 404)
+            {
                 localStorage.removeItem("sakuravoid_tebex_basket_ident");
             }
+
             return null;
         }
 
         const result = await response.json();
+
         return result.data;
     } catch (err) {
         console.error("Error fetching basket details:", err);
@@ -79,6 +85,7 @@ async function getOrCreateBasket()
 async function authorizeTebexBasket(basketIdent)
 {
     const currentUrl = window.location.href;
+
     const response = await fetch(`https://headless.tebex.io/api/accounts/${STORE_PUBLIC_KEY}/baskets/${basketIdent}/auth?returnUrl=${encodeURIComponent(currentUrl)}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
@@ -129,8 +136,6 @@ async function addPackageToBasket(packageId)
             console.error("TEBEX 422 VALIDATION DETAIL:", JSON.stringify(errorDetails, null, 2));
             throw new Error("Failed to add package to basket.");
         }
-
-        //Package Notification
     }
     catch (err) {
         console.error(err);
@@ -138,14 +143,19 @@ async function addPackageToBasket(packageId)
     }
 }
 
-async function updatePackageQuantity(packageId, newQuantity) {
+async function updatePackageQuantity(packageId, newQuantity)
+{
     try {
         const basketIdent = localStorage.getItem("sakuravoid_tebex_basket_ident");
-        if (!basketIdent) return;
 
-        const endpoint = newQuantity <= 0
-            ? `https://headless.tebex.io/api/baskets/${basketIdent}/packages/remove`
-            : `https://headless.tebex.io/api/baskets/${basketIdent}/packages/${packageId}`;
+        if (!basketIdent)
+        {
+            return;
+        }
+
+        const endpoint = newQuantity <= 0 ?
+            `https://headless.tebex.io/api/baskets/${basketIdent}/packages/remove` :
+            `https://headless.tebex.io/api/baskets/${basketIdent}/packages/${packageId}`;
 
         const method = newQuantity <= 0 ? "POST" : "PUT";
         const body = newQuantity <= 0 ? { package_id: Number(packageId) } : { quantity: Number(newQuantity) };
@@ -156,7 +166,8 @@ async function updatePackageQuantity(packageId, newQuantity) {
             body: JSON.stringify(body)
         });
 
-        if (!response.ok) {
+        if (!response.ok)
+        {
             throw new Error("Failed to update package quantity.");
         }
     } catch (err) {

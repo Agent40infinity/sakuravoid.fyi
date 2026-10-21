@@ -1,5 +1,4 @@
-﻿/*Maybe Add*/
-.basket-notification {
+﻿.basket-notification {
     background-color: #1f1f1f;
     color: #ffb8e6;
     padding: 8px 14px;
@@ -34,9 +33,6 @@
         transform: translateY(-5px);
     }
 }
-/*Maybe Add*/
-
-
 
 .basket-container {
     position: fixed;
