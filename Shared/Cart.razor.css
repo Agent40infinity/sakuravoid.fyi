@@ -1,0 +1,9 @@
+﻿svg {
+    width: 30px;
+    height: auto;
+}
+
+svg path {
+    fill: #ffb8e6;
+    stroke: #ffb8e6;
+}

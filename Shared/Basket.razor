@@ -40,7 +40,7 @@
     }
 
     <div class="basket-toggle" @onclick="ToggleBasket">
-        <img src="../SVG/Basket.svg" />
+        <Cart />
         @if (Tebex.TotalItemCount > 0)
         {
             <div class="basket-count">@Tebex.TotalItemCount</div>
@@ -66,7 +66,6 @@
         if (IsBasketOpen)
         {
             await Tebex.RefreshBasket(js);
-            StateHasChanged();
         }
     }
 
