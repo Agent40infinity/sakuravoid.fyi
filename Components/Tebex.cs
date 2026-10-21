@@ -10,14 +10,7 @@ namespace sakuravoid.fyi.Components
         public static decimal BasketTotal => Basket.Sum(i => decimal.TryParse(i.Price, out var p) ? p : 0m);
         public static int TotalItemCount => Basket.Sum(i => i.Quantity);
 
-        public static event Action? OnUpdate;
-
-        public static event Action<string>? OnPackageAdded;
-
-        public static void TriggerPackageAdded(string packageName)
-        {
-            OnPackageAdded?.Invoke(packageName);
-        }
+        public static event Action<string?>? OnUpdate;
 
         public static async Task RefreshBasket(IJSRuntime js)
         {
@@ -27,25 +20,33 @@ namespace sakuravoid.fyi.Components
 
                 if (basketData != null && basketData.packages != null)
                 {
+                    var originBasketCount = Basket.ToDictionary(i => i.PackageId, i => i.Quantity);
+                    var addedPackageName = "";
+
                     Basket.Clear();
                     string currencyCode = string.IsNullOrEmpty(basketData.currency) ? "USD" : basketData.currency;
 
-                    foreach (var pkg in basketData.packages)
+                    foreach (var package in basketData.packages)
                     {
-                        int qty = pkg.in_basket?.quantity > 0 ? pkg.in_basket.quantity : 1;
-                        decimal unitPrice = pkg.in_basket?.price ?? 0m;
+                        int quantity = package.in_basket?.quantity > 0 ? package.in_basket.quantity : 1;
+                        decimal unitPrice = package.in_basket?.price ?? 0m;
+
+                        if (!originBasketCount.TryGetValue(package.id, out var oldQuantity) || quantity > oldQuantity)
+                        {
+                            addedPackageName = package.name;
+                        }
 
                         Basket.Add(new BasketItemModel
                         {
-                            PackageId = pkg.id,
-                            Name = pkg.name ?? "Unknown Package",
-                            Quantity = qty,
-                            Price = (unitPrice * qty).ToString("F2"),
+                            PackageId = package.id,
+                            Name = package.name ?? "Unknown Package",
+                            Quantity = quantity,
+                            Price = (unitPrice * quantity).ToString("F2"),
                             Currency = currencyCode
                         });
                     }
 
-                    OnUpdate?.Invoke();
+                    OnUpdate?.Invoke(addedPackageName);
                 }
             }
             catch (Exception ex)

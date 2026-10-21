@@ -73,7 +73,6 @@
         }
 
         await js.InvokeVoidAsync("addPackageToBasket", PackageID);
-        Tebex.TriggerPackageAdded(Name); // <-- Trigger the notification event
         await Tebex.RefreshBasket(js);
     }
 }
