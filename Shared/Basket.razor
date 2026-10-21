@@ -55,15 +55,18 @@
     protected override async Task OnInitializedAsync()
     {
         await Tebex.RefreshBasket(js);
+        StateHasChanged();
     }
 
     private async Task ToggleBasket()
     {
         IsBasketOpen = !IsBasketOpen;
+        StateHasChanged();
 
         if (IsBasketOpen)
         {
             await Tebex.RefreshBasket(js);
+            StateHasChanged();
         }
     }
 
