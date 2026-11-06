@@ -1,0 +1,29 @@
+﻿<td class="side" @onmouseenter="@(() => showQm = true)" @onmouseleave="@(() => showQm = false)">
+    <span @onmouseenter="@(() => hovered = true)" @onmouseleave="@(() => hovered = false)">
+        @Title
+        @if (showQm) 
+        {
+            <sup>?</sup>
+        }
+    </span>
+    @if (hovered)
+    {
+        <div class="tooltip">
+            <p class="tooltip-inner">@Tooltip</p>
+            <div class="tooltip-arrow"></div>
+        </div>
+    }
+</td>
+
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Tooltip { get; set; } = "";
+
+    public bool hovered = false;
+
+    public bool showQm = false;
+}

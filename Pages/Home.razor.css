@@ -87,7 +87,7 @@ header {
     background-color: rgb(0, 0, 0, 0.31);
 }
 
-.server-title, .checkout {
+.checkout {
     padding: 15px;
     border: solid 6px rgb(73, 0, 117);
     border-top: solid 3px rgb(73, 0, 117);
@@ -117,19 +117,69 @@ header {
 }
 
 .login p {
+    margin-left: 5px;
     margin-top: 8px;
     margin-bottom: 2px;
 }
 
-.server-title img {
-    width: 500px;
-    height: auto;
+.server-title {
+    height: 55px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.server-title-item {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.server-title .logo {
+    padding-left: 15px;
+    padding-right: 25px;
+    height: 55px;
+    width: auto;
+    transform: scale(1.475);
+}
+
+.server-title .logo-title {
+    height: 28px;
+    width: auto;
+}
+
+.server-title h2 {
+    font-size: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.server-title .logo-subtitle {
+    height: 28px;
+    width: auto;
 }
 
 .skin-icon {
     width: 32px;
     height: 32px;
     margin-right: 6px;
+}
+
+.under-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.server-ip {
+    font-size: 22px;
+}
+
+.server-ip span {
+    margin-left: 10px;
+    color: #aa5fff;
 }
 
 .title-page {

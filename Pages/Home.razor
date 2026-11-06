@@ -25,7 +25,10 @@
     <Basket />
     <header>
         <div class="server-title">
-            <img src="../Images/server_title.png" />
+            <img class="server-title-item logo" src="../Images/sakuravoid_logo.png" />
+            <img class="server-title-item logo-title" src="../Images/sakuravoid_title.png" />
+            <h2>-</h2>
+            <img class="server-title-item logo-subtitle" src="../Images/sakuravoid_creative.png" />
         </div>
         <div class="checkout">
             <a class="login" @onclick="Logout" @onmouseover="() => HoverLogout = true" @onmouseout="() => HoverLogout = false">
@@ -37,6 +40,13 @@
             </div>
         </div>
     </header>
+    <div class="under-header">
+        <h3 class="server-ip">Server IP: <span>build.sakuravoid.fyi</span></h3>
+        <div>
+            <Discord />
+        </div>
+    </div>
+
     <div class="title-page">
         <h2>Shop</h2>
         <h2></h2>
@@ -108,7 +118,7 @@
                     <td><img src="../Images/patreon_suffix.png" /></td>
                 </tr>
                 <tr>
-                    <td class="side">EzEdits Access</td>
+                    <SideTooltip Title="EzEdits Access" Tooltip="EzEdits is a powerful extension for WorldEdit that adds commands, patterns, & tools" />
                     <td><Cross /></td>
                     <td><Cross /></td>
                     <td><Cross /></td>
@@ -116,7 +126,7 @@
                     <td><Checkmark /></td>
                 </tr>
                 <tr>
-                    <td class="side">Arceon Access</td>
+                    <SideTooltip Title="Arceon Access" Tooltip="Arceon is an advanced terrain building extension for WorldEdit giving access to complex terrain generation" />
                     <td><Cross /></td>
                     <td><Cross /></td>
                     <td><Cross /></td>
@@ -124,28 +134,44 @@
                     <td><Checkmark /></td>
                 </tr>
                 <tr>
-                    <td class="side">Number of Creative Worlds</td>
+                    <SideTooltip Title="GoBrush & Paint Access" Tooltip="GoBrush is an advanced terraforming tool for WorldEdit that utilises Heightmaps with a custom GUI. GoPaint adds realisitic painting tools" />
+                    <td><Cross /></td>
+                    <td><Cross /></td>
+                    <td><Cross /></td>
+                    <td><Cross /></td>
+                    <td><Checkmark /></td>
+                </tr>
+                <tr>
+                    <SideTooltip Title="Number of Creative Worlds" Tooltip="Total number of personal creative worlds you can create and own" />
                     <td>1</td>
                     <td>2</td>
                     <td>2</td>
                     <td>3</td>
-                    <td></td>
+                    <td><Minus /></td>
                 </tr>
                 <tr>
-                    <td class="side">Creative World Border</td>
+                    <SideTooltip Title="Creative World Border" Tooltip="The Radius of the world border of your personal creative worlds. E.g. World Border of 1000 would result in a 2000x2000 area" />
                     <td>1000</td>
                     <td>1000</td>
                     <td>2000</td>
                     <td>4000</td>
-                    <td></td>
+                    <td><Minus /></td>
                 </tr>
                 <tr>
-                    <td class="side">WorldEdit, Axiom, & VoxelSniper</td>
+                    <SideTooltip Title="WorldEdit & VoxelSniper" Tooltip="Standard access to Fast Async WorldEdit & VoxelSniper" />
                     <td><Checkmark /></td>
                     <td><Checkmark /></td>
                     <td><Checkmark /></td>
                     <td><Checkmark /></td>
-                    <td></td>
+                    <td><Minus /></td>
+                </tr>
+                <tr>
+                    <SideTooltip Title="Axiom" Tooltip="Axiom is a mod that acts as a game development engine for building. Used with Blueprints" />
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
+                    <td><Checkmark /></td>
+                    <td><Minus /></td>
                 </tr>
                 <tr>
                     <td class="side">Access to heads database</td>
@@ -153,7 +179,7 @@
                     <td><Checkmark /></td>
                     <td><Checkmark /></td>
                     <td><Checkmark /></td>
-                    <td></td>
+                    <td><Minus /></td>
                 </tr>
                 <tr>
                     <td class="side">Access to Sakura Void SMP</td>
@@ -161,23 +187,23 @@
                     <td><Checkmark /></td>
                     <td><Cross /></td>
                     <td><Checkmark /></td>
-                    <td></td>
+                    <td><Minus /></td>
                 </tr>
                 <tr>
-                    <td class="side">Access to Cosmetics</td>
+                    <SideTooltip Title="Access to Cosmetics" Tooltip="Cosmetics include, Outfits, Particles, and Building Effects" />
                     <td><Cross /></td>
                     <td><Cross /></td>
                     <td><Checkmark /></td>
                     <td><Checkmark /></td>
-                    <td></td>
+                    <td><Minus /></td>
                 </tr>
                 <tr>
-                    <td class="side">Creative World Configurator</td>
+                    <td class="side">Customize World Lore</td>
                     <td><Cross /></td>
                     <td><Cross /></td>
                     <td><Cross /></td>
                     <td><Checkmark /></td>
-                    <td></td>
+                    <td><Minus /></td>
                 </tr>
                 <tr>
                     <td class="td-final side">Customize World Icons</td>
@@ -185,7 +211,7 @@
                     <td class="td-final"><Cross /></td>
                     <td class="td-final"><Cross /></td>
                     <td class="td-final"><Checkmark /></td>
-                    <td class="td-final"></td>
+                    <td class="td-final"><Minus /></td>
                 </tr>
             </tbody>
         </table>

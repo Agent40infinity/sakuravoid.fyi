@@ -1,0 +1,70 @@
+﻿tbody tr:nth-child(even) td {
+    background-color: #232127;
+}
+
+tbody tr:nth-child(odd) td {
+    background-color: #1b1a1e;
+}
+
+tbody tr:nth-child(odd):hover td {
+    background-color: #343434;
+}
+
+tbody tr:nth-child(even):hover td {
+    background-color: #343434;
+}
+
+td {
+    width: 170px;
+    height: 60px;
+    text-align: center;
+    background-color: #232127;
+    border-collapse: separate;
+    border-spacing: 6px 2px;
+    border-bottom: solid 2px #303030;
+    border-top: solid 2px #303030;
+    border-left: solid 2px #585858;
+    border-right: solid 2px #585858;
+}
+
+.side {
+    width: 150px;
+    padding-left: 25px;
+    padding-right: 25px;
+    text-align: left;
+    cursor: help;
+    position: relative;
+}
+
+.tooltip {
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    position: absolute;
+    display: block;
+}
+
+.tooltip-inner {
+    background-color: #1b1a1e;
+    border: #585858 2px solid;
+    color: #aa5fff;
+    min-height: 60px;
+    padding: 10px;
+    text-align: center;
+    text-wrap: wrap;
+    text-decoration: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tooltip-arrow {
+    border-top-color: #aa5fff !important;
+    border-width: 10px 10px 0 !important;
+    position: absolute;
+    left: 50%;
+    border-color: transparent;
+    border-style: solid;
+    transform: translateX(-10px);
+}
