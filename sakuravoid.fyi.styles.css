@@ -183,6 +183,11 @@ header[b-delvoxmjka] {
     color: #aa5fff;
 }
 
+.server-ip span:hover[b-delvoxmjka] {
+    color: #7800ff;
+    cursor: pointer;
+}
+
 .title-page[b-delvoxmjka] {
     padding-top: 40px;
     padding-bottom: 10px;
@@ -565,6 +570,10 @@ svg:hover[b-i8qhg7ycht] {
 
 svg path[b-i8qhg7ycht] {
     fill: #ffb8e6;
+}
+
+svg:hover path[b-i8qhg7ycht] {
+    fill: #aa5fff;
 }
 /* /Shared/Minus.razor.rz.scp.css */
 svg[b-ljvkheoh0x] {
