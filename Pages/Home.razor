@@ -41,7 +41,7 @@
         </div>
     </header>
     <div class="under-header">
-        <h3 class="server-ip">Server IP: <span>build.sakuravoid.fyi</span></h3>
+        <h3 class="server-ip">Server IP: <span @onclick="@(() =>js.InvokeVoidAsync("navigator.clipboard.writeText", "build.sakuravoid.fyi"))">build.sakuravoid.fyi</span></h3>
         <div>
             <Discord />
         </div>
@@ -239,7 +239,7 @@
     </div>
     <footer>
         <p>Copyright © Sakura Void 2026. All Rights Reserved.</p>
-        <p>This Product has not approved by or associated with Mojang Studios and/or Microsoft.</p>
+        <p>This Product is not approved by or associated with Mojang Studios and/or Microsoft.</p>
     </footer>
 </body>
 
